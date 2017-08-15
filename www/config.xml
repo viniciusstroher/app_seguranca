@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="br.rtsp.vini" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
-  <name>RTSP</name>
+  <name>Trabalho Final ADS</name>
   <description>
-        RTSP
+        Trabalho Final ADS
     </description>
-  <author email="RTSP@gmail.com" href="http://example.com/">
-      RTSP
+  <author email="ADS@gmail.com" href="http://example.com/">
+      Trabalho Final ADS
     </author>
   <content src="index.html"/>
   <access origin="*"/>
