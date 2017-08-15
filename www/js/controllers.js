@@ -54,6 +54,9 @@ angular.module('starter.controllers', [])
   $scope.server = {};
   $scope.server.porta = 10000;
   $scope.server.senha = "teste";
+  $scope.killServer = function(){
+    navigator.httpd.stopHttpd();
+  }
   $scope.runServer = function(){
     navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha);
     $timeout(function(){
