@@ -36,7 +36,7 @@
   
   <!--gap:plugin spec="https://github.com/viniciusstroher/plugin_phonegap_rtsp" /-->
   <plugin spec="https://github.com/viniciusstroher/plugin_http_server" source="git" />
-
+  <plugin spec="https://github.com/w3get/cordova-plugin-whitelist" />
   <access origin="*" browserOnly="true" />
   <allow-intent href="*://*/*" />
   <allow-intent href="geo:*" />

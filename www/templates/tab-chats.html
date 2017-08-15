@@ -5,5 +5,15 @@
      <button ng-click="runServer()">Start server</button><br/><br/>
      Porta do Servidor:<input ng-model="server.porta" /><br/><br/>
      Senha do Servidor:<input ng-model="server.senha" /><br/><br/>
+     <br/><br/><br/>
+     DNS NOIP:<input ng-model="dnsNOIP" /><br/><br/>
+     DNS NOIP CONTA:<input ng-model="contaNOIP" /><br/><br/>
+     DNS NOIP TEMPO ATUALIZAÇÃO:<input ng-model="atualizarDNSTempo" /><br/><br/>
+  
+     DNS NOIP ATUALIZA?
+     <select
+      ng-options="option.id as option.name for option in atualizarDNS.availableOptions"
+      ng-model="atualizarDNS.estado"></select>
+
   </ion-content>
 </ion-view>
