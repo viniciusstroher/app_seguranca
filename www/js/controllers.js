@@ -62,6 +62,16 @@ angular.module('starter.controllers', [])
     $timeout(function(){
       WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {
         console.log("Novo request:",window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1]);
+        
+        var novaReq = window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1];
+        var req = localStorage.getItem("requisicoes");
+        
+        if(req != null){
+          req.push(req);
+        }else{
+          req = [novaReq];
+          localStorage.setItem("requisicoes",req);
+        }
       });
     },1000);
   }
