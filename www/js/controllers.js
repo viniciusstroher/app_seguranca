@@ -1,16 +1,18 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope,$timeout) {})
+.controller('DashCtrl', function($scope,$timeout,) {})
 
-.controller('ChatsCtrl', function($scope, Chats,$timeout,$http) {
+.controller('ChatsCtrl', function($scope, Chats,$timeout,$http,localFactory) {
   $scope.contaNOIP         = "viniciusfs:995865Aa@";
   $scope.dnsNOIP           = "testesmart.ddns.net";
+  $scope.atualizarDNSTempo = 5000;//ms
+
   $scope.atualizarDNS      = {estado:false,availableOptions: [
       {id: true, name: 'SIM'},
       {id: false, name: 'NÃO'},
       
   ]};
-  $scope.atualizarDNSTempo = 5000;//ms
+  
 
   $scope.atualizaDNS = function(){
     if($scope.atualizarDNS.estado){
@@ -50,36 +52,43 @@ angular.module('starter.controllers', [])
     }
   }
   $scope.atualizaDNS();
+ 
   //CHECAR SE JA EXISTE A WINDOW.HTTPD.REQUESTS NO INIT QUANDO TIVER EM BACKGROUND
   $scope.server = {};
   $scope.server.porta = 10000;
   $scope.server.senha = "teste";
+  
   $scope.killServer = function(){
-    navigator.httpd.stopHttpd();
+    if(window.cordova){
+      navigator.httpd.stopHttpd();
+    }
   }
+
   $scope.runServer = function(){
-    navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha);
-    $timeout(function(){
-      WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {
-        console.log("Novo request:",window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1]);
-        
-        var novaReq = window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1];
-        var req     = localStorage.getItem("requisicoes");
-        
-        if(req != null){
-          try{
-            req = JSON.parse(req);
+    if(window.cordova){
+      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha);
+      
+      $timeout(function(){
+        WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {
+          console.log("Novo request:",window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1]);
+          
+          var novaReq = window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1];
+          var req     =  localFactory.get("requisicoes");
+          
+          if(req){
+            if(!angular.isArray(req)){
+              req = [];
+            }
             req.push(novaReq);
-          }catch(ex){
-            req = JSON.stringify([novaReq]);
-            localStorage.setItem("requisicoes",req);
+
+          }else{
+            req = [novaReq];
           }
-        }else{
-          req = JSON.stringify([novaReq]);
-          localStorage.setItem("requisicoes",req);
-        }
-      });
-    },1000);
+          localFactory.set("requisicoes",req);
+        });
+      },1000);
+
+    }
   }
 
   $scope.chats = Chats.all();
