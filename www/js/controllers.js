@@ -64,7 +64,7 @@ angular.module('starter.controllers', [])
         console.log("Novo request:",window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1]);
         
         var novaReq = window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1];
-        var req = localStorage.getItem("requisicoes");
+        var req     = localStorage.getItem("requisicoes");
         
         if(req != null){
           req = JSON.parse(req);
