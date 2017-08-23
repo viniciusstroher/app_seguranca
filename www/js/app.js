@@ -11,10 +11,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $rootScope.salvaRequest = function(){
     if(window.httpd){
       if(window.httpd.ultimaUri != ""){
-        if(angular.isArray(window.httpd.requests[window.httpd.ultimaUri])){
-          if(window.httpd.requests[window.httpd.ultimaUri].length > 0){
-            var ultimoIndex = window.httpd.requests[window.httpd.ultimaUri].length-1;
-            var novaReq     = window.httpd.requests[window.httpd.ultimaUri].splice(ultimoIndex,1).pop();
+        var chaves_array = Object.keys(window.httpd.requests);
+        angular.forEach(chaves_array,function(v,k){
+          if(angular.isArray(window.httpd.requests[v])){
+          //VARRER TODO O ARRAY QUE TIVER NOTIFICACOES
+          if(window.httpd.requests[v].length > 0){
+            var ultimoIndex = window.httpd.requests[v].length-1;
+            var novaReq     = window.httpd.requests[v].splice(ultimoIndex,1).pop();
             var req         = localFactory.get("requisicoes");
             
             if(req){
@@ -30,6 +33,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           }
         }
       }
+        });
+        
     }else{
       console.log("objeto HTTP ainda nao criado.")
     }
