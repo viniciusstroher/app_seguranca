@@ -67,9 +67,10 @@ angular.module('starter.controllers', [])
         var req = localStorage.getItem("requisicoes");
         
         if(req != null){
-          req.push(req);
+          req = JSON.parse(req);
+          req.push(novaReq);
         }else{
-          req = [novaReq];
+          req = JSON.stringify([novaReq]);
           localStorage.setItem("requisicoes",req);
         }
       });
