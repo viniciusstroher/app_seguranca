@@ -1,8 +1,8 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope,$timeout,) {})
+.controller('DashCtrl', function($scope,$timeout) {})
 
-.controller('ChatsCtrl', function($scope, Chats,$timeout,$http,localFactory) {
+.controller('ChatsCtrl', function($scope,$rootScope, Chats,$timeout,$http,localFactory) {
   $scope.contaNOIP         = "viniciusfs:995865Aa@";
   $scope.dnsNOIP           = "testesmart.ddns.net";
   $scope.atualizarDNSTempo = 5000;//ms
