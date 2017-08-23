@@ -10,31 +10,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 .run(function($ionicPlatform,$rootScope,localFactory) {
   $rootScope.salvaRequest = function(){
     if(window.httpd){
-      if(window.httpd.ultimaUri != ""){
         var chaves_array = Object.keys(window.httpd.requests);
         angular.forEach(chaves_array,function(v,k){
           if(angular.isArray(window.httpd.requests[v])){
-          //VARRER TODO O ARRAY QUE TIVER NOTIFICACOES
-          if(window.httpd.requests[v].length > 0){
-            var ultimoIndex = window.httpd.requests[v].length-1;
-            var novaReq     = window.httpd.requests[v].splice(ultimoIndex,1).pop();
-            var req         = localFactory.get("requisicoes");
-            
-            if(req){
-              if(!angular.isArray(req)){
-                req = [];
-              }
-              req.push(novaReq);
+            //VARRER TODO O ARRAY QUE TIVER NOTIFICACOES
+            if(window.httpd.requests[v].length > 0){
+              angular.forEach(window.httpd.requests[v],function(v2,k2){
+                var novaReq     = window.httpd.requests[v].splice(k2,1).pop();
+                var req         = localFactory.get("requisicoes");
+                
+                if(req){
+                  if(!angular.isArray(req)){
+                    req = [];
+                  }
+                  req.push(novaReq);
 
-            }else{
-              req = [novaReq];
+                }else{
+                  req = [novaReq];
+                }
+                localFactory.set("requisicoes",req);
+              });
             }
-            localFactory.set("requisicoes",req);
           }
-        }
-      }
         });
-        
+      
     }else{
       console.log("objeto HTTP ainda nao criado.")
     }
