@@ -18,6 +18,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               angular.forEach(window.httpd.requests[v],function(v2,k2){
                 var novaReq     = window.httpd.requests[v].splice(k2,1).pop();
                 var req         = localFactory.get("requisicoes");
+                window.httpd.contador-=1;
                 
                 if(req){
                   if(!angular.isArray(req)){
