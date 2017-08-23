@@ -14,7 +14,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         if(angular.isArray(window.httpd.requests[window.httpd.ultimaUri])){
           if(window.httpd.requests[window.httpd.ultimaUri].length > 0){
             var ultimoIndex = window.httpd.requests[window.httpd.ultimaUri].length-1;
-            var novaReq     = window.httpd.requests[window.httpd.ultimaUri].splice(ultimoIndex,1);
+            var novaReq     = window.httpd.requests[window.httpd.ultimaUri].splice(ultimoIndex,1).pop();
             var req         = localFactory.get("requisicoes");
             
             if(req){
