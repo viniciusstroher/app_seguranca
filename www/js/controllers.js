@@ -71,20 +71,8 @@ angular.module('starter.controllers', [])
       $timeout(function(){
         WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {
           console.log("Novo request:",window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1]);
+          $rootScope.salvaRequest();
           
-          var novaReq = window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1];
-          var req     =  localFactory.get("requisicoes");
-          
-          if(req){
-            if(!angular.isArray(req)){
-              req = [];
-            }
-            req.push(novaReq);
-
-          }else{
-            req = [novaReq];
-          }
-          localFactory.set("requisicoes",req);
         });
       },1000);
 

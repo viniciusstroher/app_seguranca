@@ -7,7 +7,34 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$rootScope) {
+  $rootScope.salvaRequest = function(){
+    if(window.httpd){
+      if(window.httpd.ultimaUri != ""){
+        if(angular.isArray(window.httpd.requests[window.httpd.ultimaUri])){
+          if(window.httpd.requests[window.httpd.ultimaUri].length > 0){
+            var ultimoIndex = window.httpd.requests[window.httpd.ultimaUri].length-1;
+            var novaReq     = window.httpd.requests[window.httpd.ultimaUri].splice(ultimoIndex,1);
+            var req         = localFactory.get("requisicoes");
+            
+            if(req){
+              if(!angular.isArray(req)){
+                req = [];
+              }
+              req.push(novaReq);
+
+            }else{
+              req = [novaReq];
+            }
+            localFactory.set("requisicoes",req);
+          }
+        }
+      }
+    }else{
+      console.log("objeto HTTP ainda nao criado.")
+    }
+  }
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,7 +47,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    $rootScope.salvaRequest();
   });
+
+
 })
 
 .config(function($stateProvider, $urlRouterProvider,$sceDelegateProvider) {
