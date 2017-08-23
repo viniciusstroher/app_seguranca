@@ -30,6 +30,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 }
                 localFactory.set("requisicoes",req);
               });
+            }else{
+              delete window.httpd.requests[v];
             }
           }
         });
