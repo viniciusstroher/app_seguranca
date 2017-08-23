@@ -68,13 +68,13 @@ angular.module('starter.controllers', [])
     if(window.cordova){
       navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha);
       
-      $timeout(function(){
+      /*$timeout(function(){
         WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {
           console.log("Novo request:",window.httpd.requests[window.httpd.ultimaUri][window.httpd.requests[window.httpd.ultimaUri].length-1]);
-          $rootScope.salvaRequest();
+          //$rootScope.salvaRequest();
           
         });
-      },1000);
+      },1000);*/
 
     }
   }

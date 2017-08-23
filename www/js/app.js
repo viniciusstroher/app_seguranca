@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform,$rootScope,localFactory) {
+.run(function($ionicPlatform,$rootScope,$timeout,localFactory) {
   $rootScope.salvaRequest = function(){
     if(window.httpd){
         var chaves_array = Object.keys(window.httpd.requests);
@@ -35,7 +35,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             }
           }
         });
-      
+        $timeout(function(){
+          $rootScope.salvaRequest();
+        },1000);
     }else{
       console.log("objeto HTTP ainda nao criado.")
     }
