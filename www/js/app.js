@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform,$rootScope) {
+.run(function($ionicPlatform,$rootScope,localFactory) {
   $rootScope.salvaRequest = function(){
     if(window.httpd){
       if(window.httpd.ultimaUri != ""){
