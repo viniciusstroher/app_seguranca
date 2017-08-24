@@ -3,7 +3,7 @@
     <h2>Eventos</h2>
     <ion-list>
       <ion-item>Lista de eventos</ion-item>
-      <ion-item collection-repeat="e in localFactory.get('requisicoes')">{{e}}</ion-item>
+      <ion-item collection-repeat="e in $root.eventos">{{e}}</ion-item>
     </ion-list>
   </ion-content>
 </ion-view>

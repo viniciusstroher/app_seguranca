@@ -8,6 +8,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform,$rootScope,$timeout,localFactory) {
+  $rootScope.eventos      = [];
   $rootScope.salvaRequest = function(){
     if(window.httpd){
         var chaves_array = Object.keys(window.httpd.requests);
@@ -29,6 +30,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 }else{
                   req = [novaReq];
                 }
+                $rootScope.eventos.push(novaReq);
                 localFactory.set("requisicoes",req);
               });
             }else{
