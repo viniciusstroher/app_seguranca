@@ -8,8 +8,10 @@ angular.module('starter.services', [])
         },
         get: function(name) {
             try{
+              console.log(JSON.parse(localStorage.getItem(pacote + name)));
                 return JSON.parse(localStorage.getItem(pacote + name));
             }catch(Exception){
+
                 return false;
             }
         },

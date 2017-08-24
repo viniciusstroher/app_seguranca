@@ -1,6 +1,8 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope,$timeout) {})
+.controller('DashCtrl', function($scope,$timeout,localFactory) {
+  $scope.localFactory = localFactory;
+})
 
 .controller('ChatsCtrl', function($scope,$rootScope, Chats,$timeout,$http,localFactory) {
   $scope.contaNOIP         = "viniciusfs:995865Aa@";
