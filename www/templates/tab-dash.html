@@ -1,8 +1,7 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
-    <h2>Eventos</h2>
+    <h2>Eventos ({{$root.eventos.length}})</h2>
     <ion-list>
-      <ion-item>Lista de eventos</ion-item>
       <ion-item collection-repeat="e in $root.eventos">
         <span ng-if="e.hasOwnProperty('pir')">{{e.date}} - Evento movimentação - {{e.pir}}</span>
         <span ng-if="e.hasOwnProperty('magnetico')">{{e.date}} - Evento porta - {{e.magnetico}}</span>

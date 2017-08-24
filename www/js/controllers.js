@@ -9,12 +9,12 @@ angular.module('starter.controllers', [])
   $scope.dnsNOIP           = "testesmart.ddns.net";
   $scope.atualizarDNSTempo = 5000;//ms
 
-  $scope.atualizarDNS      = {estado:false,availableOptions: [
+  $scope.atualizarDNS      = {estado:true,availableOptions: [
       {id: true, name: 'SIM'},
       {id: false, name: 'NÃO'},
       
   ]};
-  $scope.notificar      = {estado:false,availableOptions: [
+  $scope.notificar      = {estado:true,availableOptions: [
       {id: true, name: 'SIM'},
       {id: false, name: 'NÃO'},
       
