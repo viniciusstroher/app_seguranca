@@ -14,7 +14,11 @@ angular.module('starter.controllers', [])
       {id: false, name: 'NÃO'},
       
   ]};
-  
+  $scope.notificar      = {estado:false,availableOptions: [
+      {id: true, name: 'SIM'},
+      {id: false, name: 'NÃO'},
+      
+  ]};
 
   $scope.atualizaDNS = function(){
     if($scope.atualizarDNS.estado){
@@ -68,7 +72,7 @@ angular.module('starter.controllers', [])
 
   $scope.runServer = function(){
     if(window.cordova){
-      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha);
+      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$scope.notificar.estado);
       
       /*$timeout(function(){
         WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {

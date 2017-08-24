@@ -6,6 +6,10 @@
      <center><button ng-click="runServer()">Start server</button><button ng-click="killServer()">Stop server</button></center><br/><br/>
      Porta do Servidor:<input ng-model="server.porta" /><br/><br/>
      Senha do Servidor:<input ng-model="server.senha" /><br/><br/>
+     Notificar background?
+     <select
+      ng-options="option.id as option.name for option in notificar.availableOptions"
+      ng-model="notificar.estado"></select>
      <br/><br/><br/>
      DNS NOIP:<input ng-model="dnsNOIP" /><br/><br/>
      DNS NOIP CONTA:<input ng-model="contaNOIP" /><br/><br/>
@@ -15,6 +19,5 @@
      <select
       ng-options="option.id as option.name for option in atualizarDNS.availableOptions"
       ng-model="atualizarDNS.estado"></select>
-
   </ion-content>
 </ion-view>
