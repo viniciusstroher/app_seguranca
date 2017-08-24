@@ -30,7 +30,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 }else{
                   req = [novaReq];
                 }
-                $rootScope.eventos.push(novaReq);
+                $rootScope.eventos.unshift(novaReq);
                 localFactory.set("requisicoes",req);
               });
             }else{
