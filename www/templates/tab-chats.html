@@ -1,23 +1,51 @@
-<ion-view view-title="Chats">
-  <ion-content>
+<ion-view view-title="Servidor">
+  <ion-content class="padding-top">
     <!--<input type="text" ng-model="open.link" placeholder="rtsp://localhost/">
     <button ng-click="openLink()">Abrir</button><br/>-->
-     <br/>
-     <center><button ng-click="runServer()">Start server</button><button ng-click="killServer()">Stop server</button></center><br/><br/>
-     Porta do Servidor:<input ng-model="server.porta" /><br/><br/>
-     Senha do Servidor:<input ng-model="server.senha" /><br/><br/>
-     Notificar background?
-     <select
-      ng-options="option.id as option.name for option in notificar.availableOptions"
-      ng-model="notificar.estado"></select>
-     <br/><br/><br/>
-     DNS NOIP:<input ng-model="dnsNOIP" /><br/><br/>
-     DNS NOIP CONTA:<input ng-model="contaNOIP" /><br/><br/>
-     DNS NOIP TEMPO ATUALIZAÇÃO:<input ng-model="atualizarDNSTempo" /><br/><br/>
-  
-     DNS NOIP ATUALIZA?
-     <select
-      ng-options="option.id as option.name for option in atualizarDNS.availableOptions"
-      ng-model="atualizarDNS.estado"></select>
+    <ion-list>
+     <ion-item align="center">
+     	<button class="button" ng-click="runServer()">Iniciar servidor</button>
+     	<button class="button" ng-click="killServer()">Parar servidor</button>
+     </ion-item>
+     
+     <ion-item>
+     	Porta do Servidor:
+     	<label class="item item-input">
+		   <input type="text" ng-model="server.porta" />
+		</label>
+     </ion-item>
+     
+     <ion-item>
+     	Senha do Servidor:
+     	<label class="item item-input">
+		   <input type="text" ng-model="server.senha" />
+		</label>
+     </ion-item>
+     <ion-toggle  ng-model="notificar">
+        Notificar background?
+     </ion-toggle>
+
+     <ion-item>
+     	DNS NOIP:
+     	<label class="item item-input">
+		   <input type="text" ng-model="dnsNOIP" />
+		</label>
+     </ion-item>
+     <ion-item>
+     	DNS NOIP CONTA:
+     	<label class="item item-input">
+		   <input type="text" ng-model="contaNOIP" />
+		</label>
+     </ion-item>
+     <ion-item>
+     	DNS NOIP TEMPO ATUALIZAÇÃO:
+     	<label class="item item-input">
+		   <input type="text" ng-model="atualizarDNSTempo" />
+		</label>
+     </ion-item>
+     <ion-toggle  ng-model="atualizarDNS">
+        DNS NOIP ATUALIZA?
+     </ion-toggle>
+    </ion-list>
   </ion-content>
 </ion-view>

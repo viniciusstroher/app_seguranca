@@ -8,20 +8,11 @@ angular.module('starter.controllers', [])
   $scope.contaNOIP         = "viniciusfs:995865Aa@";
   $scope.dnsNOIP           = "testesmart.ddns.net";
   $scope.atualizarDNSTempo = 5000;//ms
-
-  $scope.atualizarDNS      = {estado:true,availableOptions: [
-      {id: true, name: 'SIM'},
-      {id: false, name: 'NÃO'},
-      
-  ]};
-  $scope.notificar      = {estado:true,availableOptions: [
-      {id: true, name: 'SIM'},
-      {id: false, name: 'NÃO'},
-      
-  ]};
-
+  $scope.atualizarDNS      = true,
+  $scope.notificar         = true,
+  
   $scope.atualizaDNS = function(){
-    if($scope.atualizarDNS.estado){
+    if($scope.atualizarDNS){
       $http({
         method: 'GET',
         url: 'http://ipv4.myexternalip.com/json'
@@ -72,7 +63,7 @@ angular.module('starter.controllers', [])
 
   $scope.runServer = function(){
     if(window.cordova){
-      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$scope.notificar.estado);
+      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$scope.notificar);
       
       /*$timeout(function(){
         WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {
