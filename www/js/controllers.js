@@ -64,7 +64,7 @@ angular.module('starter.controllers', [])
 
   $scope.runServer = function(){
     if(window.cordova){
-      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$scope.notificar);
+      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$scope.estado.notificar);
       
       /*$timeout(function(){
         WatchJS.watch(window.httpd, "contador", function(prop, action, newvalue, oldvalue) {
