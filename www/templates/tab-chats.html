@@ -21,8 +21,8 @@
 		   <input type="text" ng-model="server.senha" />
 		</label>
      </ion-item>
-     <ion-toggle  ng-model="notificar">
-        Notificar background?
+     <ion-toggle  ng-model="estado.notificar">
+        Notificar background? {{estado.notificar}}
      </ion-toggle>
 
      <ion-item>
@@ -40,11 +40,11 @@
      <ion-item>
      	DNS NOIP TEMPO ATUALIZAÇÃO:
      	<label class="item item-input">
-		   <input type="text" ng-model="atualizarDNSTempo" />
+		   <input type="text" ng-model="estado.atualizarDNSTempo" />
 		</label>
      </ion-item>
-     <ion-toggle  ng-model="atualizarDNS">
-        DNS NOIP ATUALIZA?
+     <ion-toggle  ng-model="estado.atualizarDNS">
+        DNS NOIP ATUALIZA? {{estado.atualizarDNS}}
      </ion-toggle>
     </ion-list>
   </ion-content>

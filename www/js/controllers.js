@@ -8,16 +8,17 @@ angular.module('starter.controllers', [])
   $scope.contaNOIP         = "viniciusfs:995865Aa@";
   $scope.dnsNOIP           = "testesmart.ddns.net";
   $scope.atualizarDNSTempo = 5000;//ms
-  $scope.atualizarDNS      = true,
-  $scope.notificar         = true,
+  $scope.estado                   = {};
+  $scope.estado.atualizarDNS      = true,
+  $scope.estado.notificar         = true,
   
   $scope.atualizaDNS = function(){
-    if($scope.atualizarDNS){
+    if($scope.estado.atualizarDNS){
       $http({
         method: 'GET',
         url: 'http://ipv4.myexternalip.com/json'
       }).then(function successCallback(response) {
-        console.log(response.data.ip);
+        //console.log(response.data.ip);
         $http({
           method: 'GET',
           url: 'http://'+$scope.contaNOIP+'dynupdate.no-ip.com/nic/update?hostname='+$scope.dnsNOIP+'&myip='+response.data.ip
