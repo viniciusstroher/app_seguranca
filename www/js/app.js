@@ -39,6 +39,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                   sensores[novaReq.uri] = novaReq;
                 }
                 $rootScope.eventos.unshift(novaReq);
+                if($rootScope.eventos.length > 20){
+                  $rootScope.eventos.splice(20,100);
+                }
                 localFactory.set("sensores",sensores);
                 $rootScope.sensores = sensores;
                 //localFactory.set("requisicoes",req);
