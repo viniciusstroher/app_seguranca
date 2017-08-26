@@ -18,20 +18,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             if(window.httpd.requests[v].length > 0){
               angular.forEach(window.httpd.requests[v],function(v2,k2){
                 var novaReq     = window.httpd.requests[v].splice(k2,1).pop();
-                var req         = localFactory.get("requisicoes");
+                var sensores         = localFactory.get("sensores");
                 window.httpd.contador-=1;
                 
-                if(req){
-                  if(!angular.isArray(req)){
-                    req = [];
+                if(sensores){
+                  if(!angular.isArray(sensores)){
+                    sensores = {};
                   }
-                  req.push(novaReq);
+                  sensores[novaReq.uri] = novaReq;
 
                 }else{
-                  req = [novaReq];
+                  sensores[novaReq.uri] = novaReq;
                 }
                 $rootScope.eventos.unshift(novaReq);
-                localFactory.set("requisicoes",req);
+                localFactory.set("sensores",sensores);
+                //localFactory.set("requisicoes",req);
               });
             }else{
               delete window.httpd.requests[v];
