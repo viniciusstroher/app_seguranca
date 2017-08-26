@@ -9,11 +9,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
   $rootScope.eventos      = [];
-  $rootScope.sensores     = {"Estado":"Carregando sensores."};
+  $rootScope.sensores     = {};
 
   var sensores            = localFactory.get("sensores");
   if(sensores){
     $rootScope.sensores   = sensores;
+  }else{
+    localFactory.set("sensores",{});
   }
   $rootScope.salvaRequest = function(){
     if(window.httpd){
