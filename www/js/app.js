@@ -90,7 +90,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     url: '/sensores',
     views: {
       'tab-sensores': {
-        templateUrl: 'templates/tab-dash.html',
+        templateUrl: 'templates/tab-sensores.html',
         controller: 'SensoresCtrl'
       }
     }
@@ -100,7 +100,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       url: '/server',
       views: {
         'tab-server': {
-          templateUrl: 'templates/tab-chats.html',
+          templateUrl: 'templates/tab-server.html',
           controller: 'ServerCtrl'
         }
       }
@@ -110,7 +110,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     url: '/cameras',
     views: {
       'tab-cameras': {
-        templateUrl: 'templates/tab-account.html',
+        templateUrl: 'templates/tab-cameras.html',
         controller: 'CamerasCtrl'
       }
     }
