@@ -20,17 +20,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $rootScope.salvaRequest = function(){
     if(window.httpd){
         var chaves_array = Object.keys(window.httpd.requests);
+       
         angular.forEach(chaves_array,function(v,k){
+       
           if(angular.isArray(window.httpd.requests[v])){
             //VARRER TODO O ARRAY QUE TIVER NOTIFICACOES
             if(window.httpd.requests[v].length > 0){
               angular.forEach(window.httpd.requests[v],function(v2,k2){
+                
                 var novaReq           = window.httpd.requests[v].splice(k2,1).pop();
                 var sensores          = localFactory.get("sensores");
                 window.httpd.contador-=1;
                 
                 if(sensores){
-                  if(!angular.isArray(sensores)){
+                  if(!angular.isObject(sensores)){
                     sensores = {};
                   }
                   sensores[novaReq.uri] = novaReq;
@@ -38,13 +41,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 }else{
                   sensores[novaReq.uri] = novaReq;
                 }
+
                 $rootScope.eventos.unshift(novaReq);
                 if($rootScope.eventos.length > 20){
                   $rootScope.eventos.splice(20,100);
                 }
+                
                 localFactory.set("sensores",sensores);
                 $rootScope.sensores = sensores;
-                //localFactory.set("requisicoes",req);
+                
               });
             }else{
               delete window.httpd.requests[v];
