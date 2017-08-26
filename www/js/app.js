@@ -66,11 +66,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $rootScope.atualizaDNS = function(){
     if($rootScope.estado.atualizarDNS){
       $http({
+        timeout: 5000,
         method: 'GET',
         url: 'http://ipv4.myexternalip.com/json'
       }).then(function successCallback(response) {
         //console.log(response.data.ip);
         $http({
+          timeout: 5000,
           method: 'GET',
           url: 'http://'+$rootScope.contaNOIP+'dynupdate.no-ip.com/nic/update?hostname='+$rootScope.dnsNOIP+'&myip='+response.data.ip
         }).then(function successCallback(response) {
