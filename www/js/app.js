@@ -9,6 +9,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
   $rootScope.eventos      = [];
+  $rootScope.sensores     = {"Estado":"Carregando sensores."};
+
+  var sensores            = localFactory.get("sensores");
+  if(sensores){
+    $rootScope.sensores   = sensores;
+  }
   $rootScope.salvaRequest = function(){
     if(window.httpd){
         var chaves_array = Object.keys(window.httpd.requests);
@@ -17,8 +23,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             //VARRER TODO O ARRAY QUE TIVER NOTIFICACOES
             if(window.httpd.requests[v].length > 0){
               angular.forEach(window.httpd.requests[v],function(v2,k2){
-                var novaReq     = window.httpd.requests[v].splice(k2,1).pop();
-                var sensores         = localFactory.get("sensores");
+                var novaReq           = window.httpd.requests[v].splice(k2,1).pop();
+                var sensores          = localFactory.get("sensores");
                 window.httpd.contador-=1;
                 
                 if(sensores){
@@ -32,6 +38,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 }
                 $rootScope.eventos.unshift(novaReq);
                 localFactory.set("sensores",sensores);
+                $rootScope.sensores = sensores;
                 //localFactory.set("requisicoes",req);
               });
             }else{
