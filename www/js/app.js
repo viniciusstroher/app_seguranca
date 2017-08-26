@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform,$rootScope,$timeout,localFactory) {
+.run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
   $rootScope.eventos      = [];
   $rootScope.salvaRequest = function(){
     if(window.httpd){
@@ -46,6 +46,51 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       console.log("objeto HTTP ainda nao criado.")
     }
   }
+
+  $rootScope.contaNOIP                = "viniciusfs:995865Aa@";
+  $rootScope.dnsNOIP                  = "testesmart.ddns.net";
+  $rootScope.atualizarDNSTempo        = 5000;//ms
+  $rootScope.estado                   = {};
+  $rootScope.estado.atualizarDNS      = true,
+  $rootScope.estado.notificar         = true,
+  
+  $rootScope.atualizaDNS = function(){
+    if($rootScope.estado.atualizarDNS){
+      $http({
+        method: 'GET',
+        url: 'http://ipv4.myexternalip.com/json'
+      }).then(function successCallback(response) {
+        //console.log(response.data.ip);
+        $http({
+          method: 'GET',
+          url: 'http://'+$rootScope.contaNOIP+'dynupdate.no-ip.com/nic/update?hostname='+$scope.dnsNOIP+'&myip='+response.data.ip
+        }).then(function successCallback(response) {
+            
+            $timeout(function(){
+              $rootScope.atualizaDNS();
+            },$rootScope.atualizarDNSTempo);
+            
+          }, function errorCallback(response) {
+            
+            $timeout(function(){
+              $rootScope.atualizaDNS();
+            },$rootScope.atualizarDNSTempo);
+          
+          });
+
+        }, function errorCallback(response) {
+          $timeout(function(){
+            $rootScope.atualizaDNS();
+          },$rootScope.atualizarDNSTempo);
+          
+        });
+    }else{
+      $timeout(function(){
+        $rootScope.atualizaDNS();
+      },$rootScope.atualizarDNSTempo);
+    }
+  }
+  $rootScope.atualizaDNS();
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
