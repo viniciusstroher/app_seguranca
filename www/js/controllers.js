@@ -22,15 +22,7 @@ angular.module('starter.controllers', [])
     }
   }
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-
 })
 
 .controller('CamerasCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
 });
