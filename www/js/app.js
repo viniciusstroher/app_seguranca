@@ -90,7 +90,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       },$rootScope.atualizarDNSTempo);
     }
   }
-  $rootScope.atualizaDNS();
+  
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -105,6 +105,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
     $rootScope.salvaRequest();
+    $rootScope.atualizaDNS();
   });
 
 
