@@ -63,9 +63,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         //console.log(response.data.ip);
         $http({
           method: 'GET',
-          url: 'http://'+$rootScope.contaNOIP+'dynupdate.no-ip.com/nic/update?hostname='+$scope.dnsNOIP+'&myip='+response.data.ip
+          url: 'http://'+$rootScope.contaNOIP+'dynupdate.no-ip.com/nic/update?hostname='+$rootScope.dnsNOIP+'&myip='+response.data.ip
         }).then(function successCallback(response) {
-            
+            console.log(response);
             $timeout(function(){
               $rootScope.atualizaDNS();
             },$rootScope.atualizarDNSTempo);
