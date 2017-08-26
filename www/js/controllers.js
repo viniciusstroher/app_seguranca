@@ -6,9 +6,10 @@ angular.module('starter.controllers', [])
 
 .controller('ServerCtrl', function($scope,$rootScope, Chats,$timeout,$http,localFactory) { 
   //CHECAR SE JA EXISTE A WINDOW.HTTPD.REQUESTS NO INIT QUANDO TIVER EM BACKGROUND
-  $scope.server       = {};
-  $scope.server.porta = 10000;
-  $scope.server.senha = "teste";
+
+  $scope.server        = {};
+  $scope.server.porta  = 10000;
+  $scope.server.senha  = "teste";
   
   $scope.killServer = function(){
     if(window.cordova){

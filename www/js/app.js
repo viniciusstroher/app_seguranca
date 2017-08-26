@@ -16,7 +16,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $rootScope.sensores   = sensores;
   }else{
     localFactory.set("sensores",{});
+
   }
+
+  $rootScope.estadoSensores = true;
+  if(angular.equals({},$rootScope.sensores)){
+    $rootScope.estadoSensores = false;
+  }
+
+
   $rootScope.salvaRequest = function(){
     if(window.httpd){
         var chaves_array = Object.keys(window.httpd.requests);
