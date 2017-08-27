@@ -26,12 +26,12 @@
       <ion-item ng-if="$root.eventos.length > 0" ng-repeat="e in $root.eventos" class="item item-text-wrap">
         <span ng-if="e.hasOwnProperty('pir')">
           <i class="icon ion-man"></i>
-          {{e.date | date:'dd/MM/yyyy HH:mm:ss '}} - Evento movimentação - {{e.pir}}
+          {{e.date | date:'dd/MM/yyyy HH:mm:ss '}} - Evento movimentação
         </span>
         <span ng-if="e.hasOwnProperty('magnetico')">
           <i class="icon ion-close-circled" ng-if="!e.magnetico"></i>
           <i class="icon ion-ios7-home" ng-if="e.magnetico"></i>
-          {{e.date | date:'dd/MM/yyyy HH:mm:ss'}} - Evento porta - {{e.magnetico}</span>
+          {{e.date | date:'dd/MM/yyyy HH:mm:ss'}} - Evento porta - {{e.magnetico ? 'Aberta' : 'Fechada'}}</span>
 
       </ion-item>
     </ion-list>
