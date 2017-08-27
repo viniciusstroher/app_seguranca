@@ -22,7 +22,7 @@
 		</label>
      </ion-item>
      <ion-toggle  ng-model="estado.notificar">
-        Notificar background? {{$root.estado.notificar}}
+        Notificar background? {{$root.estado.notificar ? 'Sim' : 'Não'}}
      </ion-toggle>
 
      <ion-item>
@@ -44,7 +44,7 @@
 		</label>
      </ion-item>
      <ion-toggle  ng-model="estado.atualizarDNS">
-        DNS NOIP ATUALIZA? {{$root.estado.atualizarDNS}}
+        DNS NOIP ATUALIZA? {{$root.estado.atualizarDNS ? 'Sim' : 'Não'}}
      </ion-toggle>
     </ion-list>
   </ion-content>
