@@ -8,8 +8,15 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
-  $rootScope.eventos      = [];
-  $rootScope.sensores     = {};
+  $rootScope.eventos        = [];
+  $rootScope.sensores       = {};
+  $rootScope.estadoServidor = false;
+
+  $rootScope.atualizaEstadoServidor = function(){
+    if(window.hasOwnProperty('httpd_server')){
+      $rootScope.estadoServidor = window.httpd_server;
+    }
+  }
 
   var sensores            = localFactory.get("sensores");
   if(sensores){
@@ -26,6 +33,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 
   $rootScope.salvaRequest = function(){
+    $rootScope.atualizaEstadoServidor();
     if(window.httpd){
         var chaves_array = Object.keys(window.httpd.requests);
        
@@ -133,6 +141,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
     $rootScope.salvaRequest();
     $rootScope.atualizaDNS();
+    $rootScope.atualizaEstadoServidor();
   });
 
 
