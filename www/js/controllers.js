@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('SensoresCtrl', function($scope,$timeout,localFactory) {
-  $scope.localFactory = localFactory;
+
 })
 
 .controller('ServerCtrl', function($scope,$rootScope,$timeout,$http,localFactory) { 
@@ -19,7 +19,7 @@ angular.module('starter.controllers', [])
 
   $scope.runServer = function(){
     if(window.cordova){
-      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$scope.estado.notificar);
+      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$rootScope.estado.notificar);
     }
   }
 
