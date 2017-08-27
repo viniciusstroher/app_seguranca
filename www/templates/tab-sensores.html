@@ -2,26 +2,36 @@
   <ion-content class="padding" overflow-scroll="true"> 
     <h2>Sensores</h2>
 
+
     <ion-list >
       <ion-item ng-if="!$root.estadoSensores">
-        Não há dados dos sensores.
+        <i class="icon ion-happy"></i> Não há dados dos sensores. 
       </ion-item>
       <ion-item class="item item-text-wrap" ng-if="$root.sensores.hasOwnProperty('/pir')">
-        (PIR1:) Ultima movimentação as : {{$root.sensores["/pir"].date | date:'dd/MM/yyyy HH:mm:ss'}}
+        <i class="icon ion-man"></i>
+        <h2 style="color:red">PIR</h2> - Ultima movimentação as : {{$root.sensores["/pir"].date | date:'dd/MM/yyyy HH:mm:ss'}}
       </ion-item>
 
       <ion-item class="item item-text-wrap" ng-if="$root.sensores.hasOwnProperty('/porta_aberta')">
-        (Porta:) Ultimo estado da porta as:  {{$root.sensores["/porta_aberta"].date | date:'dd/MM/yyyy HH:mm:ss'}} - {{$root.sensores["/porta_aberta"].magnetico ? 'Aberta' : 'Fechada'}}
+        <i class="icon ion-close-circled" ng-if="!$root.sensores['/porta_aberta'].magnetico"></i>
+        <i class="icon ion-ios7-home" ng-if="$root.sensores['/porta_aberta'].magnetico"></i>
+        <h2 style="color:red">Porta</h2> - Ultimo estado da porta as:  {{$root.sensores["/porta_aberta"].date | date:'dd/MM/yyyy HH:mm:ss'}} - {{$root.sensores["/porta_aberta"].magnetico ? 'Aberta' : 'Fechada'}}
       </ion-item>
 
         
     </ion-list>
     <h2>Eventos ({{$root.eventos.length}})</h2>
     <ion-list>
-      <ion-item ng-if="$root.eventos.length == 0">Nenhum evento ocorrido.</ion-item>
+      <ion-item ng-if="$root.eventos.length == 0"> <i class="icon ion-happy"></i>Nenhum evento ocorrido.</ion-item>
       <ion-item ng-if="$root.eventos.length > 0" ng-repeat="e in $root.eventos" class="item item-text-wrap">
-        <span ng-if="e.hasOwnProperty('pir')">{{e.date | date:'dd/MM/yyyy HH:mm:ss '}} - Evento movimentação - {{e.pir}}</span>
-        <span ng-if="e.hasOwnProperty('magnetico')">{{e.date | date:'dd/MM/yyyy HH:mm:ss'}} - Evento porta - {{e.magnetico}}</span>
+        <span ng-if="e.hasOwnProperty('pir')">
+          <i class="icon ion-man"></i>
+          {{e.date | date:'dd/MM/yyyy HH:mm:ss '}} - Evento movimentação - {{e.pir}}
+        </span>
+        <span ng-if="e.hasOwnProperty('magnetico')">
+          <i class="icon ion-close-circled" ng-if="!e.magnetico"></i>
+          <i class="icon ion-ios7-home" ng-if="e.magnetico"></i>
+          {{e.date | date:'dd/MM/yyyy HH:mm:ss'}} - Evento porta - {{e.magnetico}</span>
 
       </ion-item>
     </ion-list>
