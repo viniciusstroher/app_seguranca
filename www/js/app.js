@@ -77,7 +77,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $rootScope.atualizarDNSTempo        = 5000;//ms
   $rootScope.estado                   = {};
   $rootScope.estado.atualizarDNS      = true,
-  $rootScope.estado.notificar         = true,
+  $rootScope.estado.notificar         = false,
   
   $rootScope.atualizaDNS = function(){
     if($rootScope.estado.atualizarDNS){
