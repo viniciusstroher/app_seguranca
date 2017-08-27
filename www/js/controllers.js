@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('SensoresCtrl', function($scope,$timeout,localFactory) {
+.controller('SensoresCtrl', function($scope,$timeout,$rootScope,localFactory) {
   $scope.limpaEventos = function(){
     $rootScope.eventos = [];
   }
