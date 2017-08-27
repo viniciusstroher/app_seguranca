@@ -6,11 +6,11 @@
       <ion-item ng-if="!$root.estadoSensores">
         Não há dados dos sensores.
       </ion-item>
-      <ion-item class="row" ng-if="$root.sensores.hasOwnProperty('/pir')">
+      <ion-item class="item item-text-wrap" ng-if="$root.sensores.hasOwnProperty('/pir')">
         (PIR1:) Ultima movimentação as : {{$root.sensores["/pir"].date | date:'dd/MM/yyyy HH:mm:ss'}}
       </ion-item>
 
-      <ion-item class="row" ng-if="$root.sensores.hasOwnProperty('/porta_aberta')">
+      <ion-item class="item item-text-wrap" ng-if="$root.sensores.hasOwnProperty('/porta_aberta')">
         (Porta:) Ultimo estado da porta as:  {{$root.sensores["/porta_aberta"].date | date:'dd/MM/yyyy HH:mm:ss}} - {{$root.sensores["/porta_aberta"].magnetico ? 'Aberta' : 'Fechada'}}
       </ion-item>
 
@@ -19,7 +19,7 @@
     <h2>Eventos ({{$root.eventos.length}})</h2>
     <ion-list>
       <ion-item ng-if="$root.eventos.length == 0">Nenhum evento ocorrido.</ion-item>
-      <ion-item ng-if="$root.eventos.length > 0" ng-repeat="e in $root.eventos" class="row" text-wrap>
+      <ion-item ng-if="$root.eventos.length > 0" ng-repeat="e in $root.eventos" class="item item-text-wrap" text-wrap>
         <span ng-if="e.hasOwnProperty('pir')">{{e.date | date:'dd/MM/yyyy HH:mm:ss}} - Evento movimentação - {{e.pir}}</span>
         <span ng-if="e.hasOwnProperty('magnetico')">{{e.date | date:'dd/MM/yyyy HH:mm:ss}} - Evento porta - {{e.magnetico}}</span>
 
