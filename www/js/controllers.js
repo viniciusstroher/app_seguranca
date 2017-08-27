@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
   $scope.localFactory = localFactory;
 })
 
-.controller('ServerCtrl', function($scope,$rootScope, Chats,$timeout,$http,localFactory) { 
+.controller('ServerCtrl', function($scope,$rootScope,$timeout,$http,localFactory) { 
   //CHECAR SE JA EXISTE A WINDOW.HTTPD.REQUESTS NO INIT QUANDO TIVER EM BACKGROUND
 
   $scope.server        = {};
