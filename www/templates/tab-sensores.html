@@ -13,8 +13,8 @@
       </ion-item>
 
       <ion-item class="item item-text-wrap" ng-if="$root.sensores.hasOwnProperty('/porta_aberta')">
-        <i class="icon ion-close-circled" ng-if="!$root.sensores['/porta_aberta'].magnetico"></i>
-        <i class="icon ion-ios7-home" ng-if="$root.sensores['/porta_aberta'].magnetico"></i>
+        <i class="icon ion-checkmark" ng-if="!$root.sensores['/porta_aberta'].magnetico"></i>
+        <i class="icon ion-alert-circled" ng-if="$root.sensores['/porta_aberta'].magnetico"></i>
         <h2 style="color:red">Porta</h2> - Ultimo estado da porta as:  {{$root.sensores["/porta_aberta"].date | date:'dd/MM/yyyy HH:mm:ss'}} - {{$root.sensores["/porta_aberta"].magnetico ? 'Aberta' : 'Fechada'}}
       </ion-item>
 
@@ -29,8 +29,8 @@
           {{e.date | date:'dd/MM/yyyy HH:mm:ss '}} - Evento movimentação
         </span>
         <span ng-if="e.hasOwnProperty('magnetico')">
-          <i class="icon ion-close-circled" ng-if="!e.magnetico"></i>
-          <i class="icon ion-ios7-home" ng-if="e.magnetico"></i>
+          <i class="icon ion-checkmark" ng-if="!e.magnetico"></i>
+          <i class="icon ion-alert-circled" ng-if="e.magnetico"></i>
           {{e.date | date:'dd/MM/yyyy HH:mm:ss'}} - Evento porta - {{e.magnetico ? 'Aberta' : 'Fechada'}}</span>
 
       </ion-item>
