@@ -20,7 +20,7 @@
 
         
     </ion-list>
-    <h2>Eventos ({{$root.eventos.length}}) <button class="button button-small" ng-click="limpaEventos()">Limpar</button></h2>
+    <h2>Ultimos Eventos ({{$root.eventos.length}}) <button class="button button-small" ng-click="limpaEventos()">Limpar</button></h2>
     <ion-list>
       <ion-item ng-if="$root.eventos.length == 0"> <i class="icon ion-happy"></i>Nenhum evento ocorrido.</ion-item>
       <ion-item ng-if="$root.eventos.length > 0" ng-repeat="e in $root.eventos" class="item item-text-wrap">
