@@ -27,5 +27,32 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('CamerasCtrl', function($scope) {
+.controller('CamerasCtrl', function($scope,localFactory) {
+  $scope.novaCamera           = {};
+  $scope.novaCamera.label     = "";
+  $scope.novaCamera.rtsp      = "";
+  $scope.novaCamera.descricao = "";
+  
+  $scope.cameras    = [];
+  $scope.adicionar  = false;
+
+  var camerasCache  = localFactory.get('cameras'); 
+  if(camerasCache){
+    if(angular.isArray(camerasCache)){
+      $scope.cameras = camerasCache;
+    }
+  }
+
+  $scope.adicionarCamera = function function_name(argument) {
+    $scope.adicionar = true;
+  }
+
+  $scope.cancelarCamera = function(){
+    $scope.adicionar = false;
+  }
+
+  $scope.salvarCamera = function(){
+    console.log($scope.novaCamera);
+  }
+
 });
