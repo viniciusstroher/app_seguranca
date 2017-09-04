@@ -3,32 +3,35 @@
    	<h2>Cameras Instaladas ({{cameras.length}})</h2>
     <ion-list>
       <ion-item ng-if="cameras.length == 0"> <i class="icon ion-sad"></i>Nenhum camera instalada.</ion-item>
-      <ion-item ng-if="cameras.length > 0" ng-repeat="c in cameras.eventos" class="item item-text-wrap">
-        <span ng-if="e.hasOwnProperty('pir')">
-          <i class="icon ion-cam"></i>
-          {{e.date | date:'dd/MM/yyyy HH:mm:ss '}} - Evento movimentação
-        </span>
-        <span ng-if="e.hasOwnProperty('magnetico')">
-          <i class="icon ion-checkmark" ng-if="!e.magnetico"></i>
-          <i class="icon ion-alert-circled" ng-if="e.magnetico"></i>
-          {{e.date | date:'dd/MM/yyyy HH:mm:ss'}} - Evento porta - {{e.magnetico ? 'Aberta' : 'Fechada'}}</span>
+      <ion-item ng-if="cameras.length > 0" ng-repeat="c in cameras track by $index" class="item item-text-wrap">
+        <span ng-click="editaCamera($index)">
+          <i class="icon ion-videocamera"></i>
+          <h2 style="color:red">{{c.label}}</h2>  <b>(rtsp://) {{c.rtsp}}</b><br/>
+          {{c.descricao}}
+          <br/>
+          <br/>
+         
 
+        </span> <button class="button button-positive" ng-click="visualizarCamera($index);">
+			   		<i class="icon ion-alert-circled"></i>Visualizar?</button>
+         <button class="button button-positive" ng-click="deletarCamera($index);">
+			   		<i class="icon ion-alert-circled"></i>Deletar?</button>
       </ion-item>
       
       <ion-item ng-if="adicionar">
       		<div class="list">
-			  <label class="item item-input" ng-model="novaCamera.label">
-			    <input type="text" placeholder="Nome da Camera">
+			  <label class="item item-input" >
+			    <input type="text" ng-model="novaCamera.label" placeholder="Nome da Camera">
 			  </label>
 
-			  <label class="item item-input" ng-model="novaCamera.rtsp">
-			    <input type="text" placeholder="IP Rtsp">
+			  <label class="item item-input" >
+			    <input type="text" placeholder="IP Rtsp" ng-model="novaCamera.rtsp">
 			  </label>
 
-			  <label class="item item-input" ng-model="novaCamera.descricao">
-			    <textarea placeholder="descricao"></textarea>
+			  <label class="item item-input" >
+			    <textarea placeholder="descricao" ng-model="novaCamera.descricao"></textarea>
 			  </label>
-			  
+
 			   <center>
 			   	<button class="button button-positive" ng-click="cancelarCamera();">
 			   		<i class="icon ion-close-circled"></i>Cancelar</button>
@@ -37,6 +40,34 @@
 			   	</center>
 		
 			</div>
+
+
+
+      </ion-item>
+      <ion-item ng-if="editar">
+      		<div class="list">
+			  <label class="item item-input" >
+			    <input type="text" ng-model="novaCamera.label" placeholder="Nome da Camera">
+			  </label>
+
+			  <label class="item item-input" >
+			    <input type="text" placeholder="IP Rtsp" ng-model="novaCamera.rtsp">
+			  </label>
+
+			  <label class="item item-input" >
+			    <textarea placeholder="descricao" ng-model="novaCamera.descricao"></textarea>
+			  </label>
+
+			   <center>
+			   	<button class="button button-positive" ng-click="cancelarCamera();">
+			   		<i class="icon ion-close-circled"></i>Cancelar</button>
+			   	<button class="button button-positive" ng-click="salvarEditCamera();">
+			   		<i class="icon ion-checkmark-circled"></i>Salvar</button>
+			   	</center>
+		
+			</div>
+
+
 
       </ion-item>
     </ion-list>
