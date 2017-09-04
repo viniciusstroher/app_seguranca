@@ -80,13 +80,62 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   }
 
-  $rootScope.contaNOIP                = "viniciusfs:995865Aa@";
-  $rootScope.dnsNOIP                  = "testesmart.ddns.net";
-  $rootScope.atualizarDNSTempo        = 5000;//ms
+
+
+
+
   $rootScope.estado                   = {};
-  $rootScope.estado.atualizarDNS      = true,
-  $rootScope.estado.notificar         = false,
-  
+  var configApp                       = localFactory.get("configApp");
+  if(!configApp){
+    $rootScope.contaNOIP                = "viniciusfs:995865Aa@";
+    $rootScope.dnsNOIP                  = "testesmart.ddns.net";
+    $rootScope.atualizarDNSTempo        = 5000;//ms
+
+    $rootScope.estado.atualizarDNS      = true;
+    $rootScope.estado.notificar         = false;
+    $rootScope.estado.startonboot       = false;
+
+    $rootScope.server        = {};
+    $rootScope.server.porta  = 10000;
+    $rootScope.server.senha  = "teste";
+
+    var configApp               = {};
+    configApp.contaNOIP         = $rootScope.contaNOIP;
+    configApp.dnsNOIP           = $rootScope.dnsNOIP;
+    configApp.atualizarDNSTempo = $rootScope.atualizarDNSTempo;
+    configApp.atualizarDNS      = $rootScope.estado.atualizarDNS;
+    configApp.notificar         = $rootScope.estado.notificar;
+    configApp.startonboot       = $rootScope.estado.startonboot;
+
+    configApp.notificar         = $rootScope.estado.notificar;
+    configApp.startonboot       = $rootScope.estado.startonboot;
+
+    configApp.server_porta      = $rootScope.server.porta;
+    configApp.server_senha      = $rootScope.server.senha;
+
+
+    localFactory.set("configApp",configApp);
+  }else{
+    $rootScope.contaNOIP                = configApp.contaNOIP;
+    $rootScope.dnsNOIP                  = configApp.dnsNOIP;
+    $rootScope.atualizarDNSTempo        = configApp.atualizarDNSTempo;//ms
+    $rootScope.estado.atualizarDNS      = configApp.atualizarDNS;
+    $rootScope.estado.notificar         = configApp.notificar;
+    $rootScope.estado.startonboot       = configApp.startonboot;
+
+    $rootScope.server                   = {};
+    $rootScope.server.porta             = configApp.server_porta;
+    $rootScope.server.senha             = configApp.server_senha;
+
+  }
+
+  if($rootScope.startonboot){
+    if(window.cordova){
+      //NAO DEIXAR INICIAR O SERVER SE JA ESTIVER ON
+      navigator.httpd.startHttpd($rootScope.server.porta,$rootScope.server.senha,$rootScope.estado.notificar);
+    }
+  }
+
   $rootScope.atualizaDNS = function(){
     if($rootScope.estado.atualizarDNS){
       $http({

@@ -9,9 +9,22 @@ angular.module('starter.controllers', [])
 .controller('ServerCtrl', function($scope,$rootScope,$timeout,$http,localFactory) { 
   //CHECAR SE JA EXISTE A WINDOW.HTTPD.REQUESTS NO INIT QUANDO TIVER EM BACKGROUND
 
-  $scope.server        = {};
-  $scope.server.porta  = 10000;
-  $scope.server.senha  = "teste";
+  $scope.salvarConfigs = function(){
+    var configApp               = {};
+    configApp.contaNOIP         = $rootScope.contaNOIP;
+    configApp.dnsNOIP           = $rootScope.dnsNOIP;
+    configApp.atualizarDNSTempo = $rootScope.atualizarDNSTempo;
+    configApp.atualizarDNS      = $rootScope.estado.atualizarDNS;
+    configApp.notificar         = $rootScope.estado.notificar;
+    configApp.startonboot       = $rootScope.estado.startonboot;
+
+    configApp.notificar         = $rootScope.estado.notificar;
+    configApp.startonboot       = $rootScope.estado.startonboot;
+
+    configApp.server_porta      = $rootScope.server.porta;
+    configApp.server_senha      = $rootScope.server.senha;
+    localFactory.set("configApp",configApp);
+  }
   
   $scope.killServer = function(){
     if(window.cordova){
@@ -21,7 +34,7 @@ angular.module('starter.controllers', [])
 
   $scope.runServer = function(){
     if(window.cordova){
-      navigator.httpd.startHttpd($scope.server.porta,$scope.server.senha,$rootScope.estado.notificar);
+      navigator.httpd.startHttpd($rootScope.server.porta,$rootScope.server.senha,$rootScope.estado.notificar);
     }
   }
 
