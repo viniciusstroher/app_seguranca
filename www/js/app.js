@@ -129,7 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   }
 
-  if($rootScope.startonboot){
+  if($rootScope.estado.startonboot){
     if(window.cordova){
       //NAO DEIXAR INICIAR O SERVER SE JA ESTIVER ON
       navigator.httpd.startHttpd($rootScope.server.porta,$rootScope.server.senha,$rootScope.estado.notificar);
