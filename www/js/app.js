@@ -129,12 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   }
 
-  if($rootScope.estado.startonboot){
-    if(window.cordova){
-      //NAO DEIXAR INICIAR O SERVER SE JA ESTIVER ON
-      navigator.httpd.startHttpd($rootScope.server.porta,$rootScope.server.senha,$rootScope.estado.notificar);
-    }
-  }
+  
 
   $rootScope.atualizaDNS = function(){
     if($rootScope.estado.atualizarDNS){
@@ -191,6 +186,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $rootScope.salvaRequest();
     $rootScope.atualizaDNS();
     $rootScope.atualizaEstadoServidor();
+    if($rootScope.estado.startonboot){
+      if(window.cordova){
+        //NAO DEIXAR INICIAR O SERVER SE JA ESTIVER ON
+        navigator.httpd.startHttpd($rootScope.server.porta,$rootScope.server.senha,$rootScope.estado.notificar);
+      }
+    }
   });
 
 
