@@ -143,10 +143,7 @@ angular.module('starter.controllers', [])
               //CODIGO PARA VISUALIZAR CAMERA RTSP PLUGIN
               try{
                 var camera = $scope.cameras[index];
-                var obj    = {};
-                obj.link   = camera.rtsp
-                obj.params = "";
-                navigator.RtspW3.abrirRtsp(obj);
+                navigator.RtspW3.abrirRtsp(camera.rtsp,"");
               }catch(ex){
                 console.log(ex);
               }
