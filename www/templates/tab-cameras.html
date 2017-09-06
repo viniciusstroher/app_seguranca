@@ -31,6 +31,10 @@
 			  <label class="item item-input" >
 			    <textarea placeholder="descricao" ng-model="novaCamera.descricao"></textarea>
 			  </label>
+				
+			  <label class="item item-input" >
+			    <input type="text" placeholder="Parametros" ng-model="novaCamera.parametros" ng-value="-rtsp-tcp --rtsp-user= --rtsp-pwd= --aout=opensles --audio-time-stretch">
+			  </label>
 
 			   <center>
 			   	<button class="button button-positive" ng-click="cancelarCamera();">
@@ -55,9 +59,9 @@
 			  </label>
 
 			  <label class="item item-input" >
-			    <input type="text" placeholder="Parametros" ng-model="novaCamera.parametros" >
+			    <input type="text" placeholder="Parametros" ng-model="novaCamera.parametros">
 			  </label>
-			  
+
 			  <label class="item item-input" >
 			    <textarea placeholder="descricao" ng-model="novaCamera.descricao"></textarea>
 			  </label>
@@ -67,7 +71,7 @@
 
 			   <center>
 			   	<button class="button button-positive" ng-click="cancelarCamera();">
-			   		<i class="icon ion-close-circled"></i>Cancelar</button>
+			   		<i class="icon ion-close-circled"></i>Fechar</button>
 			   	<button class="button button-positive" ng-click="salvarEditCamera();">
 			   		<i class="icon ion-checkmark-circled"></i>Salvar</button>
 			   	</center>

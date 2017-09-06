@@ -115,9 +115,22 @@ angular.module('starter.controllers', [])
   }
 
   $scope.editaCamera = function(index){
-    $scope.novaCamera = $scope.cameras[index];
-    $scope.editar     = true;
-    $scope.editarIndice = index;
+     if($scope.adicionar){
+      $ionicPopup.show({
+        template: "Termine de adicionar antes.",
+        title: 'Atenção',
+        
+        scope: $scope,
+        buttons: [
+         { text: 'Ok' },
+         
+        ]
+      });
+    }else{
+      $scope.novaCamera = $scope.cameras[index];
+      $scope.editar     = true;
+      $scope.editarIndice = index;
+    }
   }
 
   $scope.salvarEditCamera = function(){
