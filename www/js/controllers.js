@@ -131,7 +131,7 @@ angular.module('starter.controllers', [])
   }
 
 
-  $scope.visualizarCamera = function(){
+  $scope.visualizarCamera = function(index){
        $ionicPopup.show({
         template: "Deseja visualizar esta camera?",
         title: 'Atenção',
@@ -141,6 +141,15 @@ angular.module('starter.controllers', [])
          { text: 'Sim',
            onTap: function(){
               //CODIGO PARA VISUALIZAR CAMERA RTSP PLUGIN
+              try{
+                var camera = $scope.cameras[index];
+                var obj    = {};
+                obj.link   = camera.rtsp
+                obj.params = "";
+                navigator.RtspW3.abrirRtsp(obj);
+              }catch(ex){
+                console.log(ex);
+              }
            } },{ text: 'Não',
            onTap: function(){
             

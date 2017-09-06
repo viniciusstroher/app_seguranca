@@ -34,8 +34,9 @@
   <preference name="android-installLocation" value="auto" />
   <preference name="loadUrlTimeoutValue" value="700000" />  
   
-  <!--gap:plugin spec="https://github.com/viniciusstroher/plugin_phonegap_rtsp" /-->
+  <plugin spec="https://github.com/viniciusstroher/plugin_phonegap_rtsp" />
   <plugin spec="https://github.com/viniciusstroher/plugin_http_server" source="git" />
+
   <plugin spec="https://github.com/w3get/cordova-plugin-whitelist" />
   <plugin spec="https://github.com/Microsoft/cordova-plugin-code-push" />
   
