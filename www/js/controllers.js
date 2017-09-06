@@ -107,7 +107,7 @@ angular.module('starter.controllers', [])
       }else{
         localFactory.set('cameras',[$scope.novaCamera]);
       }
-
+      $scope.carrageCameras();
       $scope.adicionar            = false;
       $scope.novaCamera           = {};
 
