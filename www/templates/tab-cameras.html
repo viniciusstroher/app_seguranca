@@ -6,7 +6,7 @@
       <ion-item ng-if="cameras.length > 0" ng-repeat="c in cameras track by $index" class="item item-text-wrap">
         <span ng-click="editaCamera($index)">
           <i class="icon ion-videocamera"></i>
-          <h2 style="color:red">{{c.label}}</h2>  <b>(rtsp://) {{c.rtsp}}</b><br/>
+          <h2 style="color:red">{{c.label}}</h2>  <b>(rtsp://) {{c.rtsp}}</b><br/><b>(Parametros) {{c.parametros}}</b><br/>
           {{c.descricao}}
           <br/>
           <br/>
