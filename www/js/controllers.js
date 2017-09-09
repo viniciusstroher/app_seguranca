@@ -157,6 +157,8 @@ angular.module('starter.controllers', [])
               try{
                 var camera = $scope.cameras[index];
                 navigator.RtspW3.abrirRtsp(camera.rtsp,camera.parametros);
+                //cordova.plugins.rtspPlayer.watch("camera.rtsp", function(e){console.log('suc',e);}, function(e){console.log('err',e);});
+
               }catch(ex){
                 console.log(ex);
               }
