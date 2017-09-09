@@ -156,7 +156,8 @@ angular.module('starter.controllers', [])
               //CODIGO PARA VISUALIZAR CAMERA RTSP PLUGIN
               try{
                 var camera = $scope.cameras[index];
-                navigator.RtspW3.abrirRtsp(camera.rtsp,camera.parametros);
+                //navigator.RtspW3.abrirRtsp(camera.rtsp,camera.parametros);
+                window.plugins.vitamio.playVideo(camera.rtsp);
                 //cordova.plugins.rtspPlayer.watch("camera.rtsp", function(e){console.log('suc',e);}, function(e){console.log('err',e);});
 
               }catch(ex){
