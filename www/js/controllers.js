@@ -157,7 +157,10 @@ angular.module('starter.controllers', [])
               try{
                 var camera = $scope.cameras[index];
                 //navigator.RtspW3.abrirRtsp(camera.rtsp,camera.parametros);
-                window.plugins.vitamio.playVideo(camera.rtsp);
+                 var options = {
+                  isStreaming: true,
+                 }
+                window.plugins.vitamio.playVideo(camera.rtsp,options);
                 //cordova.plugins.rtspPlayer.watch("camera.rtsp", function(e){console.log('suc',e);}, function(e){console.log('err',e);});
 
               }catch(ex){
