@@ -109,6 +109,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             templateUrl: 'templates/crud-camera.html'
           
 
+      })
+  .state('view', {
+        url: '/view/:index',
+
+          
+            controller: 'ViewCamerasCtrl',
+            templateUrl: 'templates/view-camera.html'
+          
+
       }); 
   ;
 

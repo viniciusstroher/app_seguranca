@@ -55,7 +55,6 @@ angular.module('starter.controllers', [])
     }
   }
   
-
   $scope.adicionarCamera = function() {
     $state.go("crud");
   }
@@ -64,28 +63,7 @@ angular.module('starter.controllers', [])
   }
  
   $scope.visualizarCamera = function(index){
-       $ionicPopup.show({
-        template: "Deseja visualizar esta camera?",
-        title: 'Atenção',
-        
-        scope: $scope,
-        buttons: [
-         { text: 'Sim',
-           onTap: function(){
-
-              try{
-                var camera = $scope.cameras[index];
-                //JSMPEG                
-              }catch(ex){
-                console.log(ex);
-              }
-           } },{ text: 'Não',
-           onTap: function(){
-            
-           } }
-         
-        ]
-      });
+       $state.go("view",{index});
   }
 
   $scope.deletarCamera = function(index){
@@ -187,6 +165,18 @@ angular.module('starter.controllers', [])
     
   }
 
+  $scope.voltar = function() {
+    $state.go("tab.cameras");
+  }
+})
+.controller('ViewCamerasCtrl', function($scope,localFactory, $ionicPopup,$state,$stateParams) {
+  
+  if($stateParams.index != ""){
+    var camerasCache  = localFactory.get('cameras'); 
+    var camera        = camerasCache[$stateParams.index];
+    var canvas = document.getElementById('video-canvas');
+    var player = new JSMpeg.Player(camera.ws, {canvas: canvas});
+  }
   $scope.voltar = function() {
     $state.go("tab.cameras");
   }
