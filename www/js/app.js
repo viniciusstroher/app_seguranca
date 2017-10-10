@@ -1,29 +1,15 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
   $rootScope.eventos        = [];
   $rootScope.sensores       = {};
-  $rootScope.estadoServidor = false;
-
-  $rootScope.atualizaEstadoServidor = function(){
-    if(window.hasOwnProperty('httpd_server')){
-      $rootScope.estadoServidor = window.httpd_server;
-    }
-  }
+  $rootScope.estado         = {};
 
   var sensores            = localFactory.get("sensores");
   if(sensores){
     $rootScope.sensores   = sensores;
   }else{
     localFactory.set("sensores",{});
-
   }
 
   $rootScope.estadoSensores = true;
@@ -31,170 +17,44 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $rootScope.estadoSensores = false;
   }
 
-
-  $rootScope.salvaRequest = function(){
-    $rootScope.atualizaEstadoServidor();
-    if(window.httpd){
-        var chaves_array = Object.keys(window.httpd.requests);
-       
-        angular.forEach(chaves_array,function(v,k){
-       
-          if(angular.isArray(window.httpd.requests[v])){
-            //VARRER TODO O ARRAY QUE TIVER NOTIFICACOES
-            if(window.httpd.requests[v].length > 0){
-              angular.forEach(window.httpd.requests[v],function(v2,k2){
-                
-                var novaReq           = window.httpd.requests[v].splice(k2,1).pop();
-                var sensores          = localFactory.get("sensores");
-                window.httpd.contador-=1;
-                
-                if(sensores){
-                  if(!angular.isObject(sensores)){
-                    sensores = {};
-                  }
-                  sensores[novaReq.uri] = novaReq;
-
-                }else{
-                  sensores[novaReq.uri] = novaReq;
-                }
-
-                $rootScope.eventos.unshift(novaReq);
-                if($rootScope.eventos.length > 20){
-                  $rootScope.eventos.splice(20,100);
-                }
-                
-                localFactory.set("sensores",sensores);
-                $rootScope.sensores = sensores;
-                
-              });
-            }else{
-              delete window.httpd.requests[v];
-            }
-          }
-        });
-        $timeout(function(){
-          $rootScope.salvaRequest();
-        },1000);
-    }else{
-      console.log("objeto HTTP ainda nao criado.")
-    }
-  }
-
-
-
-
-
-  $rootScope.estado                   = {};
-  var configApp                       = localFactory.get("configApp");
+  var configApp                 = localFactory.get("configApp");
   if(!configApp){
-    $rootScope.contaNOIP                = "viniciusfs:995865Aa@";
-    $rootScope.dnsNOIP                  = "testesmart.ddns.net";
-    $rootScope.atualizarDNSTempo        = 5000;//ms
-
-    $rootScope.estado.atualizarDNS      = true;
-    $rootScope.estado.notificar         = false;
-    $rootScope.estado.startonboot       = false;
-
-    $rootScope.server        = {};
-    $rootScope.server.porta  = 10000;
-    $rootScope.server.senha  = "teste";
+   
+    $rootScope.server           = {};
+    $rootScope.server.api       = "http://venizao.dlinkddns.com/seguranca";
+    $rootScope.server.porta     = 10000;
+    $rootScope.server.senha     = "teste";
+    $rootScope.estado.notificar = false; 
 
     var configApp               = {};
-    configApp.contaNOIP         = $rootScope.contaNOIP;
-    configApp.dnsNOIP           = $rootScope.dnsNOIP;
-    configApp.atualizarDNSTempo = $rootScope.atualizarDNSTempo;
-    configApp.atualizarDNS      = $rootScope.estado.atualizarDNS;
     configApp.notificar         = $rootScope.estado.notificar;
-    configApp.startonboot       = $rootScope.estado.startonboot;
-
-    configApp.notificar         = $rootScope.estado.notificar;
-    configApp.startonboot       = $rootScope.estado.startonboot;
-
+    configApp.server_api        = $rootScope.server.api;  
     configApp.server_porta      = $rootScope.server.porta;
     configApp.server_senha      = $rootScope.server.senha;
 
-
     localFactory.set("configApp",configApp);
   }else{
-    $rootScope.contaNOIP                = configApp.contaNOIP;
-    $rootScope.dnsNOIP                  = configApp.dnsNOIP;
-    $rootScope.atualizarDNSTempo        = configApp.atualizarDNSTempo;//ms
-    $rootScope.estado.atualizarDNS      = configApp.atualizarDNS;
+    
     $rootScope.estado.notificar         = configApp.notificar;
     $rootScope.estado.startonboot       = configApp.startonboot;
 
     $rootScope.server                   = {};
+    $rootScope.server.api               = configApp.server_api;
     $rootScope.server.porta             = configApp.server_porta;
     $rootScope.server.senha             = configApp.server_senha;
 
   }
 
-  
-
-  $rootScope.atualizaDNS = function(){
-    if($rootScope.estado.atualizarDNS){
-      $http({
-        timeout: 5000,
-        method: 'GET',
-        url: 'http://ipv4.myexternalip.com/json'
-      }).then(function successCallback(response) {
-        //console.log(response.data.ip);
-        $http({
-          timeout: 5000,
-          method: 'GET',
-          url: 'http://'+$rootScope.contaNOIP+'dynupdate.no-ip.com/nic/update?hostname='+$rootScope.dnsNOIP+'&myip='+response.data.ip
-        }).then(function successCallback(response) {
-            console.log(response);
-            $timeout(function(){
-              $rootScope.atualizaDNS();
-            },$rootScope.atualizarDNSTempo);
-            
-          }, function errorCallback(response) {
-            
-            $timeout(function(){
-              $rootScope.atualizaDNS();
-            },$rootScope.atualizarDNSTempo);
-          
-          });
-
-        }, function errorCallback(response) {
-          $timeout(function(){
-            $rootScope.atualizaDNS();
-          },$rootScope.atualizarDNSTempo);
-          
-        });
-    }else{
-      $timeout(function(){
-        $rootScope.atualizaDNS();
-      },$rootScope.atualizarDNSTempo);
-    }
-  }
-  
-
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
+
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    $rootScope.salvaRequest();
-    $rootScope.atualizaDNS();
-    $rootScope.atualizaEstadoServidor();
-    if($rootScope.estado.startonboot){
-      if(window.cordova){
-        //NAO DEIXAR INICIAR O SERVER SE JA ESTIVER ON
-        navigator.httpd.startHttpd($rootScope.server.porta,$rootScope.server.senha,$rootScope.estado.notificar);
-      }
-    }
   });
-
-
 })
 
 .config(function($stateProvider, $urlRouterProvider,$sceDelegateProvider) {
@@ -203,21 +63,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     '*://*:*/**',
     'http://*:*/**',
   ]);
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+  
   $stateProvider
-
-  // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
-
-  // Each tab has its own nav history stack:
-
   .state('tab.sensores', {
     url: '/sensores',
     views: {
@@ -246,9 +98,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         controller: 'CamerasCtrl'
       }
     }
-  });
+  })
 
-  // if none of the above states are matched, use this as the fallback
+  .state('crud', {
+        url: '/crud/:edit',
+
+          
+            controller: 'CrudCamerasCtrl',
+            templateUrl: 'templates/crud-camera.html'
+          
+
+      }); 
+  ;
+
+
+
   $urlRouterProvider.otherwise('/tab/sensores');
-
 });

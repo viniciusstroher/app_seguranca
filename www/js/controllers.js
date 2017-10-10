@@ -6,7 +6,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('ServerCtrl', function($scope,$rootScope,$timeout,$http,localFactory) { 
+.controller('ServerCtrl', function($scope,$rootScope,$timeout,$http,localFactory,$state) { 
   //CHECAR SE JA EXISTE A WINDOW.HTTPD.REQUESTS NO INIT QUANDO TIVER EM BACKGROUND
 
   $scope.salvarConfigs = function(){
@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('CamerasCtrl', function($scope,localFactory, $ionicPopup) {
+.controller('CamerasCtrl', function($scope,localFactory, $ionicPopup,$state) {
   $scope.novaCamera           = {};
   
   $scope.carrageCameras = function(){
@@ -54,96 +54,13 @@ angular.module('starter.controllers', [])
   }
   $scope.carrageCameras();
 
-  $scope.adicionar  = false;
-  $scope.editar     = false;
-  
-  $scope.adicionarCamera = function function_name(argument) {
-    if(!$scope.editar){
-      $scope.adicionar = true;
-    }else{
-       $ionicPopup.show({
-          template: "Termine a edição antes de adicionar nova camera.",
-          title: 'Atenção',
-          
-          scope: $scope,
-          buttons: [
-           { text: 'Ok' },
-           
-          ]
-        });
-    }
-    
+  $scope.adicionarCamera = function() {
+    $state.go("crud");
   }
-
-  $scope.cancelarCamera = function(){
-    $scope.adicionar = false;
-    $scope.editar    = false;
-    $scope.novaCamera       = {};
- 
-  }
-
-  $scope.salvarCamera = function(){
-    console.log($scope.novaCamera);
-    if($scope.novaCamera.label == "" || $scope.novaCamera.rtsp == ""){
-      $ionicPopup.show({
-        template: "Não deixe o campo de label ou o rtsp vazios.",
-        title: 'Atenção',
-        
-        scope: $scope,
-        buttons: [
-         { text: 'Ok' },
-         
-        ]
-      });
-    }else{
-      var camerasCache  = localFactory.get('cameras'); 
-      if(camerasCache){
-        if(angular.isArray(camerasCache)){
-          camerasCache.push($scope.novaCamera);
-          localFactory.set('cameras',camerasCache);
-        }else{
-          localFactory.set('cameras',[$scope.novaCamera]);
-        }
-      }else{
-        localFactory.set('cameras',[$scope.novaCamera]);
-      }
-      $scope.carrageCameras();
-      $scope.adicionar            = false;
-      $scope.novaCamera           = {};
-
-    }
-  }
-
   $scope.editaCamera = function(index){
-     if($scope.adicionar){
-      $ionicPopup.show({
-        template: "Termine de adicionar antes.",
-        title: 'Atenção',
-        
-        scope: $scope,
-        buttons: [
-         { text: 'Ok' },
-         
-        ]
-      });
-    }else{
-      $scope.novaCamera = $scope.cameras[index];
-      $scope.editar     = true;
-      $scope.editarIndice = index;
-    }
+    $state.go("crud",{edit: index});
   }
-
-  $scope.salvarEditCamera = function(){
-    var camerasCache                  = localFactory.get('cameras'); 
-    camerasCache[$scope.editarIndice] = $scope.novaCamera;
-    
-    localFactory.set('cameras',camerasCache); 
-    
-    $scope.editar               = false;
-    $scope.novaCamera           = {};
-  }
-
-
+ 
   $scope.visualizarCamera = function(index){
        $ionicPopup.show({
         template: "Deseja visualizar esta camera?",
@@ -153,16 +70,10 @@ angular.module('starter.controllers', [])
         buttons: [
          { text: 'Sim',
            onTap: function(){
-              //CODIGO PARA VISUALIZAR CAMERA RTSP PLUGIN
+
               try{
                 var camera = $scope.cameras[index];
-                //navigator.RtspW3.abrirRtsp(camera.rtsp,camera.parametros);
-                 var options = {
-                  isStreaming: true,
-                 }
-                window.plugins.vitamio.playVideo(camera.rtsp,options);
-                //cordova.plugins.rtspPlayer.watch("camera.rtsp", function(e){console.log('suc',e);}, function(e){console.log('err',e);});
-
+                //JSMPEG                
               }catch(ex){
                 console.log(ex);
               }
@@ -199,6 +110,80 @@ angular.module('starter.controllers', [])
     
   }
 
+}).controller('CrudCamerasCtrl', function($scope,localFactory, $ionicPopup,$state,$stateParams) {
+  $scope.c        = {};
 
+  $scope.editando   = false;
 
+  if($stateParams.edit != ""){
+    var camerasCache  = localFactory.get('cameras'); 
+    var camera        = camerasCache[$stateParams.edit];
+    
+    $scope.c.ws     = camera.ws;
+    $scope.c.camera = camera.camera;
+    
+    $scope.editando = true;  
+
+  }else{
+    
+    $scope.c.ws     = "ws://localhost:9000";
+    $scope.c.camera = "";
+  }
+  $scope.salvar = function() {
+
+    if($scope.c.ws == "" || $scope.c.camera == ""){
+      $ionicPopup.show({
+        template: "Preencha os campos.",
+        title: 'Atenção',
+        
+        scope: $scope,
+        buttons: [
+         { text: 'Ok' },
+         
+        ]
+      });
+    }else{
+        var camerasCache  = localFactory.get('cameras'); 
+        if(camerasCache){
+          if(angular.isArray(camerasCache)){
+            camerasCache.push({ws: $scope.c.ws, camera: $scope.c.camera});
+            localFactory.set('cameras',camerasCache);
+          }else{
+            localFactory.set('cameras',[{ws: $scope.c.ws, camera: $scope.c.camera}]);
+          }
+        }else{
+          localFactory.set('cameras',[{ws: $scope.c.ws, camera: $scope.c.camera}]);
+        }
+        $state.go("tab.cameras");
+    }
+    
+  }
+
+  $scope.editar = function(){
+    var camerasCache  = localFactory.get('cameras'); 
+    if(!angular.equals(camerasCache,{})){
+      if($scope.c.ws == "" || $scope.c.camera == ""){
+        $ionicPopup.show({
+          template: "Preencha os campos.",
+          title: 'Atenção',
+          
+          scope: $scope,
+          buttons: [
+           { text: 'Ok' },
+           
+          ]
+        });
+      }else{
+        camerasCache[$stateParams.edit].ws      = $scope.c.ws;
+        camerasCache[$stateParams.edit].camera  = $scope.c.camera;
+        localFactory.set('cameras',camerasCache);
+      }
+    }
+    $state.go("tab.cameras");
+  }
+
+  $scope.voltar = function() {
+    $state.go("tab.cameras");
+  }
 });
+;
