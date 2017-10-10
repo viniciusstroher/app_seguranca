@@ -41,8 +41,10 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CamerasCtrl', function($scope,localFactory, $ionicPopup,$state) {
-  $scope.novaCamera           = {};
-  
+  $scope.$on('$ionicView.enter', function() {
+    $scope.carrageCameras();
+  });
+
   $scope.carrageCameras = function(){
     $scope.cameras    = [];
     var camerasCache  = localFactory.get('cameras'); 
@@ -52,7 +54,7 @@ angular.module('starter.controllers', [])
       }
     }
   }
-  $scope.carrageCameras();
+  
 
   $scope.adicionarCamera = function() {
     $state.go("crud");
@@ -177,9 +179,12 @@ angular.module('starter.controllers', [])
         camerasCache[$stateParams.edit].ws      = $scope.c.ws;
         camerasCache[$stateParams.edit].camera  = $scope.c.camera;
         localFactory.set('cameras',camerasCache);
+        $state.go("tab.cameras");
       }
+    }else{
+      $state.go("tab.cameras");
     }
-    $state.go("tab.cameras");
+    
   }
 
   $scope.voltar = function() {
