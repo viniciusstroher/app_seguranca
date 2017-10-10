@@ -58,7 +58,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 })
 
-.config(function($stateProvider, $urlRouterProvider,$sceDelegateProvider) {
+.config(function($stateProvider, $urlRouterProvider,$sceDelegateProvider,$ionicConfigProvider) {
+  $ionicConfigProvider.navBar.alignTitle('center');
   $sceDelegateProvider.resourceUrlWhitelist([
     'self',
     '*://*:*/**',
