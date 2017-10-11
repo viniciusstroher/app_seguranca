@@ -45,6 +45,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   }
 
+
+
   $ionicPlatform.ready(function() {
 
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -56,6 +58,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 
+  var socket = io.connect('http://localhost:8000');
+  //socket.emit('estadoSensor');
+  socket.on('conectado', function (data) {
+    console.log('conectado',data);
+  });
+
+  socket.on('statusSensoresAPP', function (data) {
+    console.log('statusSensoresAPP',data);
+  });
+
+  $rootScope.socket    = socket;
+  $rootScope.atualizar = function(){
+    $rootScope.socket.emit('statusSensoresServer',{senha:$rootScope.server.senha});
+  }
 })
 
 .config(function($stateProvider, $urlRouterProvider,$sceDelegateProvider,$ionicConfigProvider) {
