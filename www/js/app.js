@@ -21,15 +21,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   if(!configApp){
    
     $rootScope.server           = {};
-    $rootScope.server.api       = "http://venizao.dlinkddns.com/seguranca";
-    $rootScope.server.porta     = 10000;
+    $rootScope.server.api       = "http://venizao.dlinkddns.com/";
     $rootScope.server.senha     = "teste";
     $rootScope.estado.notificar = false; 
 
     var configApp               = {};
     configApp.notificar         = $rootScope.estado.notificar;
     configApp.server_api        = $rootScope.server.api;  
-    configApp.server_porta      = $rootScope.server.porta;
     configApp.server_senha      = $rootScope.server.senha;
 
     localFactory.set("configApp",configApp);
@@ -40,7 +38,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     $rootScope.server                   = {};
     $rootScope.server.api               = configApp.server_api;
-    $rootScope.server.porta             = configApp.server_porta;
     $rootScope.server.senha             = configApp.server_senha;
 
   }
@@ -58,7 +55,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 
-  var socket = io.connect('http://localhost:8000');
+  var socket = io.connect($rootScope.server.api);
   //socket.emit('estadoSensor');
   socket.on('conectado', function (data) {
     console.log('conectado',data);

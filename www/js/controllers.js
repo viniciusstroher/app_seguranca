@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
 
     configApp.notificar         = $rootScope.estado.notificar;
     configApp.startonboot       = $rootScope.estado.startonboot;
-
+    configApp.server_api        = $rootScope.server.api;
     configApp.server_porta      = $rootScope.server.porta;
     configApp.server_senha      = $rootScope.server.senha;
     localFactory.set("configApp",configApp);
