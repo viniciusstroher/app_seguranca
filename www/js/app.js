@@ -17,6 +17,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
      var push = PushNotification.init({
       android: {
+          senderID: 956432534015
       },
       ios: {
         alert: "true",
