@@ -3,45 +3,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 .run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
   
 
-   $rootScope.token = null;
-   $rootScope.cli   = "web";
-
-   if(window.cordova){
-     if(ionic.Platform.isAndroid()){
-      $rootScope.cli = "android";
-     }
-
-     if(ionic.Platform.isIOS()){
-      $rootScope.cli = "ios";
-     }
-
-     var push = PushNotification.init({
-      android: {
-          senderID: 203678883187
-      },
-      ios: {
-        alert: "true",
-        badge: "true",
-        sound: "true"
-      }
-    });
-
-    push.on('registration', function(data) {
-      $rootScope.token = data.registrationId
-    });
-
-    push.on('notification', function(data) {
-      console.log('notification',data);
-    });
-
-    push.on('error', function(e) {
-      console.log(e.message);
-    });
-  }else{
-    $rootScope.token = "web";
-  }
-
-
+  $rootScope.token          = null;
+  $rootScope.cli            = "web";
   $rootScope.eventos        = [];
   $rootScope.sensores       = {};
   $rootScope.estado         = {};
@@ -88,17 +51,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   }
 
-  $ionicPlatform.ready(function() {
-
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-    }
-    if (window.StatusBar) {
-      StatusBar.styleDefault();
-    }
-  });
-
   $rootScope.conectado = false;
   $rootScope.socket    = null;
 
@@ -108,7 +60,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     socket.on('conectado', function (data) {
       console.log('conectado');
       $rootScope.conectado = true;
-      socket.emit('enviaToken',{token: $rootScope.token,cli:$rootScope.cli});
+      
       $rootScope.$apply();
     });
 
@@ -154,17 +106,66 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $rootScope.inciarSocket();
   }
 
-   window.addEventListener("online", function(e) {
+  window.addEventListener("online", function(e) {
       $rootScope.reconnect();
-   }, false);   
+  }, false);   
    
-   window.addEventListener("offline", function(e) {
+  window.addEventListener("offline", function(e) {
       if($rootScope.socket != null){
         $rootScope.socket.disconnect();
       }
-   }, false); 
+  }, false); 
 
 
+  $ionicPlatform.ready(function() {
+
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
+    }
+    if (window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+
+    if(window.cordova){
+      if(ionic.Platform.isAndroid()){
+        $rootScope.cli = "android";
+      }
+
+      if(ionic.Platform.isIOS()){
+        $rootScope.cli = "ios";
+      }
+
+      var push = PushNotification.init({
+        android: {
+            senderID: 203678883187
+        },
+        ios: {
+          alert: "true",
+          badge: "true",
+          sound: "true"
+        }
+      });
+
+      push.on('registration', function(data) {
+        $rootScope.token = data.registrationId;
+        localFactory.set("token",data.registrationId);
+        $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
+      });
+
+      push.on('notification', function(data) {
+        console.log('notification',data);
+      });
+
+      push.on('error', function(e) {
+        console.log(e.message);
+      });
+    }else{
+        $rootScope.token = "web";
+        $rootScope.socket.emit('enviaToken',{token:"web",cli:"web"});
+    }
+
+  });
 
 })
 
