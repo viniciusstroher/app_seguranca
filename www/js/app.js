@@ -1,6 +1,6 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
+.run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory,$cordovaPushV5) {
   
 
   $rootScope.token          = null;
@@ -104,6 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $rootScope.socket.disconnect();
     $rootScope.conectado = false;
     $rootScope.inciarSocket();
+    $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
   }
 
   window.addEventListener("online", function(e) {
@@ -116,6 +117,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
   }, false); 
 
+   
 
   $ionicPlatform.ready(function() {
 
@@ -136,30 +138,46 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         $rootScope.cli = "ios";
       }
 
-      var push = PushNotification.init({
+
+      var options = {
         android: {
-            senderID: 203678883187
+          senderID: "203678883187"
         },
         ios: {
           alert: "true",
           badge: "true",
           sound: "true"
-        }
+        },
+        windows: {}
+      };
+      
+      // initialize
+      $cordovaPushV5.initialize(options).then(function() {
+        // start listening for new notifications
+        $cordovaPushV5.onNotification();
+        // start listening for errors
+        $cordovaPushV5.onError();
+        
+        // register to get registrationId
+        $cordovaPushV5.register().then(function(registrationId) {
+          // save `registrationId` somewhere;
+          $rootScope.token = registrationId;
+          localFactory.set("token",registrationId);
+          $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
+        })
+      });
+      
+      // triggered every time notification received
+      $rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
+        console.log('notification',event,data);
       });
 
-      push.on('registration', function(data) {
-        $rootScope.token = data.registrationId;
-        localFactory.set("token",data.registrationId);
-        $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
-      });
-
-      push.on('notification', function(data) {
-        console.log('notification',data);
-      });
-
-      push.on('error', function(e) {
+      // triggered every time error occurs
+      $rootScope.$on('$cordovaPushV5:errorOcurred', function(event, e){
+        // e.message
         console.log(e.message);
       });
+
     }else{
         $rootScope.token = "web";
         $rootScope.socket.emit('enviaToken',{token:"web",cli:"web"});
