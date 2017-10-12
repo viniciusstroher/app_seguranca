@@ -107,6 +107,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     socket.on('conectado', function (data) {
       console.log('conectado');
       $rootScope.conectado = true;
+      socket.emit('enviaToken',{token: $rootScope.token,cli:$rootScope.cli});
     });
 
     socket.on('statusSensoresAPP', function (data) {
