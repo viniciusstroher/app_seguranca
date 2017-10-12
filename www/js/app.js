@@ -1,6 +1,47 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform,$rootScope,$timeout,$http,localFactory) {
+  
+
+   $rootScope.token = null;
+   $rootScope.cli   = "web";
+
+   if(window.cordova){
+     if(ionic.Platform.isAndroid()){
+      $rootScope.cli = "android";
+     }
+
+     if(ionic.Platform.isIOS()){
+      $rootScope.cli = "ios";
+     }
+
+     var push = PushNotification.init({
+      android: {
+      },
+      ios: {
+        alert: "true",
+        badge: "true",
+        sound: "true"
+      },
+      windows: {}
+    });
+
+    push.on('registration', function(data) {
+      $rootScope.token = data.registrationId
+    });
+
+    push.on('notification', function(data) {
+      console.log('notification',data);
+    });
+
+    push.on('error', function(e) {
+      console.log(e.message);
+    });
+  }else{
+    $rootScope.token = "web";
+  }
+
+
   $rootScope.eventos        = [];
   $rootScope.sensores       = {};
   $rootScope.estado         = {};
@@ -46,8 +87,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $rootScope.server.senha             = configApp.server_senha;
 
   }
-
-
 
   $ionicPlatform.ready(function() {
 
@@ -117,6 +156,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         $rootScope.socket.disconnect();
       }
    }, false); 
+
+
 
 })
 

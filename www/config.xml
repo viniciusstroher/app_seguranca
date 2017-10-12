@@ -36,7 +36,9 @@
   
   <plugin spec="https://github.com/w3get/cordova-plugin-whitelist" />
   <plugin spec="https://github.com/Microsoft/cordova-plugin-code-push" />
+  <plugin spec="https://github.com/phonegap/phonegap-plugin-push" />
   
+
   <access origin="*" browserOnly="true" />
   <allow-intent href="*://*/*" />
   <allow-intent href="geo:*" />
