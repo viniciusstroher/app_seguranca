@@ -170,13 +170,14 @@ angular.module('starter.controllers', [])
   }
 })
 .controller('ViewCamerasCtrl', function($scope,localFactory, $ionicPopup,$state,$stateParams) {
-  
-  if($stateParams.index != ""){
-    var camerasCache  = localFactory.get('cameras'); 
-    var camera        = camerasCache[$stateParams.index];
-    var canvas = document.getElementById('video-canvas');
-    var player = new JSMpeg.Player(camera.ws, {canvas: canvas});
-  }
+  $scope.$on('$ionicView.enter', function() {
+    if($stateParams.index != ""){
+      var camerasCache  = localFactory.get('cameras'); 
+      var camera        = camerasCache[$stateParams.index];
+      var canvas = document.getElementById('video-canvas');
+      var player = new JSMpeg.Player(camera.ws, {canvas: canvas});
+    }
+  });
   $scope.voltar = function() {
     $state.go("tab.cameras");
   }
