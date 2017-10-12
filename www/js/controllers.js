@@ -24,6 +24,9 @@ angular.module('starter.controllers', [])
     configApp.server_porta      = $rootScope.server.porta;
     configApp.server_senha      = $rootScope.server.senha;
     localFactory.set("configApp",configApp);
+    $rootScope.socket.disconnect();
+    $rootScope.inciarSocket();
+
   }
   
   $scope.killServer = function(){
@@ -51,8 +54,11 @@ angular.module('starter.controllers', [])
     if(camerasCache){
       if(angular.isArray(camerasCache)){
         $scope.cameras = camerasCache;
+
       }
     }
+
+
   }
   
   $scope.adicionarCamera = function() {

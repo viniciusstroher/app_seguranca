@@ -5,6 +5,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $rootScope.sensores       = {};
   $rootScope.estado         = {};
 
+  var cameras = localFactory.get("cameras");
+  if(!cameras){
+    localFactory.set("cameras",[{ws:"ws://venizao.dlinkddns.com:9001",camera:"casa"}]);
+  }
+
   var sensores            = localFactory.get("sensores");
   if(sensores){
     $rootScope.sensores   = sensores;
@@ -21,7 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   if(!configApp){
    
     $rootScope.server           = {};
-    $rootScope.server.api       = "http://venizao.dlinkddns.com/";
+    $rootScope.server.api       = "http://venizao.dlinkddns.com:10000/";
     $rootScope.server.senha     = "teste";
     $rootScope.estado.notificar = false; 
 
@@ -55,39 +60,56 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 
-  var socket = io.connect($rootScope.server.api);
-  //socket.emit('estadoSensor');
-  socket.on('conectado', function (data) {
-    console.log('conectado',data);
-  });
+  $rootScope.conectado = false;
+  $rootScope.socket    = null;
 
-  socket.on('statusSensoresAPP', function (data) {
-    if(data.evento != null){
+  $rootScope.inciarSocket = function(){
+    var socket = io.connect($rootScope.server.api);
 
-      $rootScope.eventos.push(data.evento);
-      var maxEventos = 30;
-      if($rootScope.eventos.length > maxEventos){
-        $rootScope.eventos = $rootScope.eventos.splice(0,maxEventos);
+    socket.on('conectado', function (data) {
+      console.log('conectado');
+      $rootScope.conectado = true;
+    });
+
+    socket.on('statusSensoresAPP', function (data) {
+      if(data.evento != null){
+
+        $rootScope.eventos.push(data.evento);
+        var maxEventos = 30;
+        if($rootScope.eventos.length > maxEventos){
+          $rootScope.eventos = $rootScope.eventos.splice(0,maxEventos);
+        }
+
+        $rootScope.$apply();
+        $rootScope.estadoSensores = true;
+
+        if(data.evento.hasOwnProperty('magnetico')){
+          $rootScope.sensores["/porta_aberta"] = data.evento;
+        }
+
+        if(data.evento.hasOwnProperty('pir')){
+          $rootScope.sensores["/pir"] = data.evento;
+        }
+        localFactory.set("sensores",$rootScope.sensores);
       }
+    });
 
-      $rootScope.$apply();
-      $rootScope.estadoSensores = true;
-
-      if(data.evento.hasOwnProperty('magnetico')){
-        $rootScope.sensores["/porta_aberta"] = data.evento;
-      }
-
-      if(data.evento.hasOwnProperty('pir')){
-        $rootScope.sensores["/pir"] = data.evento;
-      }
-      localFactory.set("sensores",$rootScope.sensores);
-    }
-  });
-
-  $rootScope.socket    = socket;
-  $rootScope.atualizar = function(){
-    $rootScope.socket.emit('statusSensoresServer',{senha:$rootScope.server.senha});
+    socket.on('disconnect', function() {
+      $rootScope.conectado = false;
+      console.log('desconectado');
+    });
+    $rootScope.socket    = socket;
   }
+  
+  $rootScope.inciarSocket();
+
+
+
+  $rootScope.reconnect = function(){
+    $rootScope.socket.disconnect();
+    $rootScope.inciarSocket();
+  }
+
 })
 
 .config(function($stateProvider, $urlRouterProvider,$sceDelegateProvider,$ionicConfigProvider) {
