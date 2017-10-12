@@ -1,0 +1,19 @@
+<ion-view view-title="Crud de Cameras" >
+
+<ion-content >
+
+    <div align="center" style="    display: flex;
+    flex-direction: column;">
+      Digite o endereço do WS:<br/>
+      <input ng-model="c.ws" placeholder="Digite aqui o endereço WS" class="button"  />
+      Digite o nome da camera:<br/>
+      <input ng-model="c.camera" placeholder="Digite aqui o nome da camera" class="button" />
+      <br/>
+
+      <button class="button" style="background: green;color:white" ng-click="salvar()" ng-if="!editando">Salvar camera</button>
+      <button class="button" style="background: green;color:white" ng-click="editar()" ng-if="editando">Editar camera</button>
+      <button class="button" style="background: red;color:white" ng-click="voltar()">Voltar</button>
+    </div>
+</ion-content>
+
+</ion-view>
