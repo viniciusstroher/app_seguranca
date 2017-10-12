@@ -60,7 +60,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     socket.on('conectado', function (data) {
       console.log('conectado');
       $rootScope.conectado = true;
-      
+      var token = localFactory.get("token");
+      if(token){
+        if(ionic.Platform.isAndroid()){
+          $rootScope.cli = "android";
+        }
+
+        if(ionic.Platform.isIOS()){
+          $rootScope.cli = "ios";
+        }
+        socket.emit('enviaToken',{token:token,cli:$rootScope.cli});
+      }
       $rootScope.$apply();
     });
 
