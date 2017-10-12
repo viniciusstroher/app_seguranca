@@ -24,7 +24,9 @@ angular.module('starter.controllers', [])
     configApp.server_porta      = $rootScope.server.porta;
     configApp.server_senha      = $rootScope.server.senha;
     localFactory.set("configApp",configApp);
-    $rootScope.socket.disconnect();
+    if($rootScope.socket != null){
+      $rootScope.socket.disconnect();
+    }
     $rootScope.inciarSocket();
 
   }

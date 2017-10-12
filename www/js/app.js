@@ -103,12 +103,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   
   $rootScope.inciarSocket();
 
-
-
   $rootScope.reconnect = function(){
     $rootScope.socket.disconnect();
     $rootScope.inciarSocket();
   }
+
+   window.addEventListener("online", function(e) {
+      $rootScope.reconnect();
+   }, false);   
+   
+   window.addEventListener("offline", function(e) {
+      if($rootScope.socket != null){
+        $rootScope.socket.disconnect();
+      }
+   }, false); 
 
 })
 
