@@ -62,7 +62,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 
   socket.on('statusSensoresAPP', function (data) {
-    console.log('statusSensoresAPP',data);
+    if(data.evento != null){
+
+      $rootScope.eventos.push(data.evento);
+      var maxEventos = 30;
+      if($rootScope.eventos.length > maxEventos){
+        $rootScope.eventos = $rootScope.eventos.splice(0,maxEventos);
+      }
+
+      $rootScope.$apply();
+      $rootScope.estadoSensores = true;
+
+      if(data.evento.hasOwnProperty('magnetico')){
+        $rootScope.sensores["/porta_aberta"] = data.evento;
+      }
+
+      if(data.evento.hasOwnProperty('pir')){
+        $rootScope.sensores["/pir"] = data.evento;
+      }
+      localFactory.set("sensores",$rootScope.sensores);
+    }
   });
 
   $rootScope.socket    = socket;
