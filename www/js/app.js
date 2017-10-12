@@ -17,7 +17,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
      var push = PushNotification.init({
       android: {
-          senderID: 956432534015
+          senderID: 203678883187
       },
       ios: {
         alert: "true",
@@ -109,10 +109,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       console.log('conectado');
       $rootScope.conectado = true;
       socket.emit('enviaToken',{token: $rootScope.token,cli:$rootScope.cli});
+      $rootScope.$apply();
     });
 
     socket.on('statusSensoresAPP', function (data) {
+      console.log('statusSensoresAPP',data);
       if(data.evento != null){
+        
 
         $rootScope.eventos.push(data.evento);
         var maxEventos = 30;
@@ -120,7 +123,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           $rootScope.eventos = $rootScope.eventos.splice(0,maxEventos);
         }
 
-        $rootScope.$apply();
         $rootScope.estadoSensores = true;
 
         if(data.evento.hasOwnProperty('magnetico')){
@@ -130,7 +132,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         if(data.evento.hasOwnProperty('pir')){
           $rootScope.sensores["/pir"] = data.evento;
         }
+        
         localFactory.set("sensores",$rootScope.sensores);
+
+        $rootScope.$apply();
       }
     });
 
@@ -145,6 +150,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   $rootScope.reconnect = function(){
     $rootScope.socket.disconnect();
+    $rootScope.conectado = false;
     $rootScope.inciarSocket();
   }
 
