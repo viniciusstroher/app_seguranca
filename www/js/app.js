@@ -22,8 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         alert: "true",
         badge: "true",
         sound: "true"
-      },
-      windows: {}
+      }
     });
 
     push.on('registration', function(data) {
