@@ -165,27 +165,47 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         
         $cordovaPushV5.onNotification();
         $cordovaPushV5.onError();
-        $cordovaPushV5.unregister().finish(function(){
-            $cordovaPushV5.register().then(function(registrationId) {
-              // save `registrationId` somewhere;
-              $rootScope.token = registrationId;
-              localFactory.set("token",registrationId);
-              $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
-            });
+        $cordovaPushV5.register().then(function(registrationId) {
+          // save `registrationId` somewhere;
+          $rootScope.token = registrationId;
+          localFactory.set("token",registrationId);
+          $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
         });
-        
+
+        // triggered every time notification received
+        $rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
+          console.log('notification',event,data);
+
+          $rootScope.eventos.push(data.additionalData.evento;);
+          var maxEventos = 30;
+          if($rootScope.eventos.length > maxEventos){
+            $rootScope.eventos = $rootScope.eventos.splice(0,maxEventos);
+          }
+
+          $rootScope.estadoSensores = true;
+
+          if(data.evento.hasOwnProperty('magnetico')){
+            $rootScope.sensores["/porta_aberta"] = data.additionalData.evento;;
+          }
+
+          if(data.evento.hasOwnProperty('pir')){
+            $rootScope.sensores["/pir"] = data.additionalData.evento;;
+          }
+          
+          localFactory.set("sensores",$rootScope.sensores);
+
+          $rootScope.$apply();
+
+        });
+
+        // triggered every time error occurs
+        $rootScope.$on('$cordovaPushV5:errorOcurred', function(event, e){
+          // e.message
+          console.log(e.message);
+        });
       });
       
-      // triggered every time notification received
-      $rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
-        console.log('notification',event,data);
-      });
-
-      // triggered every time error occurs
-      $rootScope.$on('$cordovaPushV5:errorOcurred', function(event, e){
-        // e.message
-        console.log(e.message);
-      });
+      
 
     }else{
         $rootScope.token = "web";
