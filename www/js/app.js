@@ -176,7 +176,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         $rootScope.$on('$cordovaPushV5:notificationReceived', function(event, data){
           console.log('notification',event,data);
 
-          $rootScope.eventos.push(data.additionalData.evento;);
+          $rootScope.eventos.push(data.additionalData.evento);
           var maxEventos = 30;
           if($rootScope.eventos.length > maxEventos){
             $rootScope.eventos = $rootScope.eventos.splice(0,maxEventos);
@@ -185,11 +185,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           $rootScope.estadoSensores = true;
 
           if(data.evento.hasOwnProperty('magnetico')){
-            $rootScope.sensores["/porta_aberta"] = data.additionalData.evento;;
+            $rootScope.sensores["/porta_aberta"] = data.additionalData.evento;
           }
 
           if(data.evento.hasOwnProperty('pir')){
-            $rootScope.sensores["/pir"] = data.additionalData.evento;;
+            $rootScope.sensores["/pir"] = data.additionalData.evento;
           }
           
           localFactory.set("sensores",$rootScope.sensores);
