@@ -193,11 +193,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
           $rootScope.estadoSensores = true;
 
-          if(data.evento.hasOwnProperty('magnetico')){
+          if(data.additionalData.evento.hasOwnProperty('magnetico')){
             $rootScope.sensores["/porta_aberta"] = data.additionalData.evento;
           }
 
-          if(data.evento.hasOwnProperty('pir')){
+          if(data.additionalData.evento.hasOwnProperty('pir')){
             $rootScope.sensores["/pir"] = data.additionalData.evento;
           }
           
