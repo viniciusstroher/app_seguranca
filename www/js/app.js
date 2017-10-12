@@ -114,7 +114,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $rootScope.socket.disconnect();
     $rootScope.conectado = false;
     $rootScope.inciarSocket();
-    $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
   }
 
   window.addEventListener("online", function(e) {
@@ -163,18 +162,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       
       // initialize
       $cordovaPushV5.initialize(options).then(function() {
-        // start listening for new notifications
-        $cordovaPushV5.onNotification();
-        // start listening for errors
-        $cordovaPushV5.onError();
         
-        // register to get registrationId
-        $cordovaPushV5.register().then(function(registrationId) {
-          // save `registrationId` somewhere;
-          $rootScope.token = registrationId;
-          localFactory.set("token",registrationId);
-          $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
-        })
+        $cordovaPushV5.onNotification();
+        $cordovaPushV5.onError();
+        $cordovaPushV5.unregister().finish(function(){
+            $cordovaPushV5.register().then(function(registrationId) {
+              // save `registrationId` somewhere;
+              $rootScope.token = registrationId;
+              localFactory.set("token",registrationId);
+              $rootScope.socket.emit('enviaToken',{token:$rootScope.token,cli:$rootScope.cli});
+            });
+        });
+        
       });
       
       // triggered every time notification received
@@ -190,6 +189,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     }else{
         $rootScope.token = "web";
+        localFactory.set("token","web");
         $rootScope.socket.emit('enviaToken',{token:"web",cli:"web"});
     }
 
